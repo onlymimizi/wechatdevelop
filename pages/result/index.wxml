@@ -1,0 +1,113 @@
+<view class="container page-enter">
+  <!-- 成功头部 -->
+  <view class="success-header">
+    <view class="success-icon">✓</view>
+    <view class="success-title">计算完成</view>
+    <view class="success-subtitle">{{calculateData.material}} · {{calculateData.actualArea}}{{calculateData.unit}}</view>
+  </view>
+
+  <!-- Banner 广告区域 -->
+  <view class="ad-section">
+    <ad unit-id="REPLACE_BANNER_ID" ad-type="banner" ad-theme="white"></ad>
+  </view>
+
+  <!-- 主要结果卡片 -->
+  <view class="result-card">
+    <view class="result-header">
+      <text class="result-title">建议购买</text>
+    </view>
+    <view class="main-result">
+      <text class="result-amount">{{result.totalAmount}}</text>
+      <text class="result-unit">{{result.unit}}</text>
+    </view>
+    <view class="result-breakdown">
+      <view class="breakdown-item">
+        <text class="breakdown-label">基础用量</text>
+        <text class="breakdown-value">{{result.baseAmount}} {{result.unit}}</text>
+      </view>
+      <view class="breakdown-item">
+        <text class="breakdown-label">损耗 ({{calculateData.wasteRate}}%)</text>
+        <text class="breakdown-value">+{{result.wasteAmount}} {{result.unit}}</text>
+      </view>
+      <view class="breakdown-item" wx:if="{{result.packages}}">
+        <text class="breakdown-label">包装数量</text>
+        <text class="breakdown-value">{{result.packages}} 包/箱</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 详细信息 -->
+  <view class="card" wx:if="{{result.details && result.details.length > 0}}">
+    <view class="card-title">详细信息</view>
+    <view class="detail-grid">
+      <view class="detail-card" wx:for="{{result.details}}" wx:key="index">
+        <view class="detail-label">{{item.label}}</view>
+        <view class="detail-value">{{item.value}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 房间明细 -->
+  <view class="card" wx:if="{{calculateData.rooms.length > 1}}">
+    <view class="card-title">房间明细</view>
+    <view class="room-grid">
+      <view class="room-card" wx:for="{{calculateData.rooms}}" wx:key="index">
+        <view class="room-name">{{item.name}}</view>
+        <view class="room-dimensions">{{item.length}}m × {{item.width}}m</view>
+        <view class="room-area">{{item.area}}㎡</view>
+        <view class="room-deduct" wx:if="{{item.deductArea}}">-{{item.deductArea}}㎡</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 温馨提示 -->
+  <view class="tips-card">
+    <view class="tips-header">
+      <text class="tips-icon">💡</text>
+      <text class="tips-title">温馨提示</text>
+    </view>
+    <view class="tips-content">
+      <view class="tip-item">
+        <text class="tip-dot">•</text>
+        <text class="tip-text">以上结果仅为估算，具体用量请以实物为准</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-dot">•</text>
+        <text class="tip-text">建议预留5-10%的额外材料以备不时之需</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-dot">•</text>
+        <text class="tip-text">不同品牌规格可能存在差异，购买前请确认</text>
+      </view>
+      <view class="tip-item">
+        <text class="tip-dot">•</text>
+        <text class="tip-text">如需专业建议请咨询装修师傅</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-section safe-area-bottom">
+    <view class="action-row">
+      <button class="action-btn secondary haptic-light" bindtap="copyResult">
+        <text class="action-icon">📋</text>
+        <text class="action-text">复制</text>
+      </button>
+      <button class="action-btn secondary haptic-light" bindtap="shareResult">
+        <text class="action-icon">📤</text>
+        <text class="action-text">分享</text>
+      </button>
+      <button class="action-btn primary haptic-medium" bindtap="saveRecord">
+        <text class="action-icon">💾</text>
+        <text class="action-text">保存记录</text>
+      </button>
+    </view>
+  </view>
+</view>
+
+<!-- 分享图生成 Canvas -->
+<canvas 
+  canvas-id="shareCanvas" 
+  class="share-canvas"
+  style="width: 750rpx; height: 1000rpx;"
+></canvas>

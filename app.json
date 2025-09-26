@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/materials/index",
+    "pages/input/house",
+    "pages/result/index",
+    "pages/history/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "装修计算器",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F8F8F8"
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "cloud": true,
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取位置信息，提供更精准的材料建议"
+    }
+  }
+}

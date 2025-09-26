@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>装修计算器 - iOS 风格演示</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+            background-color: #F8F8F8;
+            line-height: 1.4;
+            color: #1C1C1E;
+        }
+
+        .container {
+            max-width: 375px;
+            margin: 0 auto;
+            background: #F8F8F8;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* 欢迎区域 */
+        .welcome-section {
+            padding: 40px 16px 30px;
+            text-align: center;
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+            color: #FFFFFF;
+            margin-bottom: 16px;
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .welcome-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        /* 卡片样式 */
+        .card {
+            background: #FFFFFF;
+            border-radius: 10px;
+            margin: 0 16px 16px;
+            padding: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1C1C1E;
+            margin-bottom: 16px;
+            letter-spacing: -0.25px;
+        }
+
+        /* 材料网格 */
+        .material-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .material-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-radius: 12px;
+            background: #F2F2F7;
+            border: 3px solid transparent;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+
+        .material-item:hover {
+            background: #E3F2FD;
+            border-color: #007AFF;
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0, 122, 255, 0.2);
+        }
+
+        .material-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .material-icon {
+            font-size: 24px;
+        }
+
+        .material-content {
+            flex: 1;
+        }
+
+        .material-name {
+            font-size: 17px;
+            color: #1C1C1E;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .material-desc {
+            font-size: 13px;
+            color: #8E8E93;
+            font-weight: 400;
+        }
+
+        /* 输入组 */
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            font-size: 15px;
+            color: #3C3C43;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .input-field {
+            background: #F2F2F7;
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 16px;
+            border: 2px solid transparent;
+            color: #1C1C1E;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #007AFF;
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+        }
+
+        /* 按钮样式 */
+        .btn-primary {
+            background: #007AFF;
+            color: #FFFFFF;
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 122, 255, 0.3);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary:hover {
+            transform: scale(0.98);
+            box-shadow: 0 1px 4px rgba(0, 122, 255, 0.4);
+        }
+
+        .btn-arrow {
+            font-size: 14px;
+            font-weight: 600;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-primary:hover .btn-arrow {
+            transform: translateX(4px);
+        }
+
+        /* 高级功能 */
+        .advanced-feature {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #F2F2F7;
+            border-radius: 10px;
+        }
+
+        .feature-icon {
+            font-size: 20px;
+            margin-right: 12px;
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-title {
+            font-size: 15px;
+            color: #1C1C1E;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: #8E8E93;
+        }
+
+        .unlock-btn {
+            background: #007AFF;
+            color: #FFFFFF;
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .unlock-btn:hover {
+            transform: scale(0.95);
+        }
+
+        /* 操作区域 */
+        .action-section {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 375px;
+            background: linear-gradient(to top, #FFFFFF 0%, #FFFFFF 80%, rgba(255, 255, 255, 0.9) 100%);
+            padding: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* 动画 */
+        .slide-up {
+            animation: slideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .page-enter {
+            animation: slideInRight 0.3s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* 响应式 */
+        @media (max-width: 375px) {
+            .container {
+                max-width: 100%;
+            }
+        }
+
+        /* 演示说明 */
+        .demo-notice {
+            background: #FFF3CD;
+            border: 2px solid #FFE69C;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px;
+            text-align: center;
+        }
+
+        .demo-notice-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+
+        .demo-notice-text {
+            font-size: 14px;
+            color: #856404;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container page-enter">
+        <!-- 演示说明 -->
+        <div class="demo-notice">
+            <div class="demo-notice-title">🎨 iOS 风格演示</div>
+            <div class="demo-notice-text">
+                这是装修材料计算器的 iOS 风格界面演示<br>
+                实际项目为微信小程序，需在微信开发者工具中运行
+            </div>
+        </div>
+
+        <!-- 欢迎区域 -->
+        <div class="welcome-section">
+            <div class="welcome-title">装修计算器</div>
+            <div class="welcome-subtitle">精准计算材料用量，让装修更省心</div>
+        </div>
+
+        <!-- 材料选择卡片 -->
+        <div class="card">
+            <div class="card-title">选择材料类型</div>
+            <div class="material-grid">
+                <div class="material-item" onclick="selectMaterial(this, '瓷砖')">
+                    <div class="material-icon-wrapper">
+                        <div class="material-icon">🏠</div>
+                    </div>
+                    <div class="material-content">
+                        <div class="material-name">瓷砖</div>
+                        <div class="material-desc">地砖、墙砖计算</div>
+                    </div>
+                </div>
+                <div class="material-item" onclick="selectMaterial(this, '油漆')">
+                    <div class="material-icon-wrapper">
+                        <div class="material-icon">🎨</div>
+                    </div>
+                    <div class="material-content">
+                        <div class="material-name">油漆</div>
+                        <div class="material-desc">墙面涂料计算</div>
+                    </div>
+                </div>
+                <div class="material-item" onclick="selectMaterial(this, '腻子')">
+                    <div class="material-icon-wrapper">
+                        <div class="material-icon">🔧</div>
+                    </div>
+                    <div class="material-content">
+                        <div class="material-name">腻子</div>
+                        <div class="material-desc">墙面找平计算</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 基础参数设置 -->
+        <div class="card slide-up" id="paramCard" style="display: none;">
+            <div class="card-title">基础参数</div>
+            
+            <div class="input-group">
+                <div class="input-label">面积 (㎡)</div>
+                <input class="input-field" type="number" placeholder="请输入面积" id="areaInput">
+            </div>
+
+            <div class="input-group">
+                <div class="input-label">损耗率 (%)</div>
+                <input class="input-field" type="number" placeholder="建议8%" id="wasteInput">
+            </div>
+        </div>
+
+        <!-- 高级场景 -->
+        <div class="card slide-up" id="advancedCard" style="display: none; animation-delay: 0.1s;">
+            <div class="card-title">高级功能</div>
+            <div class="advanced-feature">
+                <div class="feature-icon">✨</div>
+                <div class="feature-content">
+                    <div class="feature-title">复杂场景计算</div>
+                    <div class="feature-desc">异型房间、复杂铺贴等高级计算</div>
+                </div>
+                <button class="unlock-btn" onclick="unlockAdvanced(this)">解锁</button>
+            </div>
+        </div>
+
+        <!-- 操作按钮 -->
+        <div class="action-section" id="actionSection" style="display: none;">
+            <button class="btn-primary" onclick="startCalculate()">
+                <span>开始计算</span>
+                <span class="btn-arrow">→</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedMaterial = '';
+        let isAdvancedUnlocked = false;
+
+        function selectMaterial(element, material) {
+            // 移除其他选中状态
+            document.querySelectorAll('.material-item').forEach(item => {
+                item.style.background = '#F2F2F7';
+                item.style.borderColor = 'transparent';
+                item.style.transform = 'scale(1)';
+                item.style.boxShadow = 'none';
+            });
+
+            // 设置当前选中状态
+            element.style.background = '#E3F2FD';
+            element.style.borderColor = '#007AFF';
+            element.style.transform = 'scale(1.02)';
+            element.style.boxShadow = '0 4px 16px rgba(0, 122, 255, 0.2)';
+
+            selectedMaterial = material;
+
+            // 显示参数卡片
+            setTimeout(() => {
+                document.getElementById('paramCard').style.display = 'block';
+                document.getElementById('advancedCard').style.display = 'block';
+                checkShowAction();
+            }, 300);
+
+            // 设置默认损耗率
+            const wasteRates = { '瓷砖': 8, '油漆': 5, '腻子': 10 };
+            document.getElementById('wasteInput').value = wasteRates[material] || 5;
+        }
+
+        function unlockAdvanced(button) {
+            if (!isAdvancedUnlocked) {
+                button.textContent = '已解锁';
+                button.style.background = '#34C759';
+                isAdvancedUnlocked = true;
+                
+                // 模拟解锁动画
+                button.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    button.style.transform = 'scale(1)';
+                }, 150);
+            }
+        }
+
+        function checkShowAction() {
+            const area = document.getElementById('areaInput').value;
+            if (selectedMaterial && area) {
+                document.getElementById('actionSection').style.display = 'block';
+            }
+        }
+
+        function startCalculate() {
+            const area = document.getElementById('areaInput').value;
+            const waste = document.getElementById('wasteInput').value;
+            
+            if (!area) {
+                alert('请输入面积');
+                return;
+            }
+
+            // 模拟计算
+            const baseAmount = parseFloat(area) * 1.2;
+            const wasteAmount = baseAmount * (parseFloat(waste) / 100);
+            const totalAmount = baseAmount + wasteAmount;
+
+            alert(`计算完成！\n材料：${selectedMaterial}\n面积：${area}㎡\n建议用量：${totalAmount.toFixed(2)}单位`);
+        }
+
+        // 监听面积输入
+        document.getElementById('areaInput').addEventListener('input', checkShowAction);
+
+        // 添加一些交互效果
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有按钮添加点击效果
+            document.querySelectorAll('button, .material-item').forEach(element => {
+                element.addEventListener('mousedown', function() {
+                    this.style.transform = 'scale(0.95)';
+                });
+                
+                element.addEventListener('mouseup', function() {
+                    setTimeout(() => {
+                        if (!this.classList.contains('material-item') || !selectedMaterial) {
+                            this.style.transform = 'scale(1)';
+                        }
+                    }, 100);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

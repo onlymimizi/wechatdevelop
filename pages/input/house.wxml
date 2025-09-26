@@ -1,0 +1,172 @@
+<view class="container page-enter">
+  <!-- 材料信息头部 -->
+  <view class="material-header">
+    <view class="material-badge">{{params.material}}</view>
+    <view class="material-info">基础面积 {{params.area}}㎡</view>
+  </view>
+
+  <!-- 房间列表 -->
+  <view class="card">
+    <view class="flex-between mb-16">
+      <view class="card-title">房间详情</view>
+      <button class="add-room-btn haptic-light" bindtap="addRoom">
+        <text class="add-icon">+</text>
+        <text>添加房间</text>
+      </button>
+    </view>
+
+    <view class="room-list">
+      <view class="room-card" wx:for="{{rooms}}" wx:key="index">
+        <view class="room-header">
+          <input 
+            class="room-name-input" 
+            placeholder="房间名称"
+            value="{{item.name}}"
+            bindinput="onRoomNameInput"
+            data-index="{{index}}"
+          />
+          <button 
+            class="delete-room-btn haptic-light" 
+            bindtap="deleteRoom" 
+            data-index="{{index}}"
+            wx:if="{{rooms.length > 1}}"
+          >
+            ×
+          </button>
+        </view>
+
+        <view class="dimension-inputs">
+          <view class="dimension-row">
+            <view class="dimension-input">
+              <view class="dimension-label">长度</view>
+              <input 
+                class="dimension-field" 
+                type="digit" 
+                placeholder="0"
+                value="{{item.length}}"
+                bindinput="onRoomDimensionInput"
+                data-index="{{index}}"
+                data-field="length"
+              />
+              <text class="dimension-unit">m</text>
+            </view>
+            
+            <text class="multiply-symbol">×</text>
+            
+            <view class="dimension-input">
+              <view class="dimension-label">宽度</view>
+              <input 
+                class="dimension-field" 
+                type="digit" 
+                placeholder="0"
+                value="{{item.width}}"
+                bindinput="onRoomDimensionInput"
+                data-index="{{index}}"
+                data-field="width"
+              />
+              <text class="dimension-unit">m</text>
+            </view>
+          </view>
+
+          <view class="area-result">
+            <text class="area-label">面积</text>
+            <text class="area-value">{{item.area || 0}} ㎡</text>
+          </view>
+
+          <!-- 高级选项 -->
+          <view class="advanced-section" wx:if="{{params.isAdvanced}}">
+            <view class="advanced-header">
+              <text class="advanced-title">高级选项</text>
+            </view>
+            
+            <view class="input-group">
+              <view class="input-label">扣除面积 (门窗等)</view>
+              <view class="input-wrapper">
+                <input 
+                  class="input-field" 
+                  type="digit" 
+                  placeholder="0"
+                  value="{{item.deductArea}}"
+                  bindinput="onRoomDimensionInput"
+                  data-index="{{index}}"
+                  data-field="deductArea"
+                />
+                <text class="input-unit">㎡</text>
+              </view>
+            </view>
+            
+            <view class="input-group">
+              <view class="input-label">特殊系数</view>
+              <picker 
+                bindchange="onSpecialCoefficientChange" 
+                value="{{item.specialCoefficientIndex || 0}}" 
+                range="{{specialCoefficientOptions}}"
+                data-index="{{index}}"
+              >
+                <view class="ios-picker">
+                  <text class="picker-text">{{specialCoefficientOptions[item.specialCoefficientIndex || 0]}}</text>
+                  <text class="picker-arrow">›</text>
+                </view>
+              </picker>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 单位切换 -->
+  <view class="card">
+    <view class="card-title">单位设置</view>
+    <view class="unit-selector">
+      <button 
+        class="unit-option {{unit === '㎡' ? 'active' : ''}}"
+        bindtap="switchUnit"
+        data-unit="㎡"
+      >
+        平方米 (㎡)
+      </button>
+      <button 
+        class="unit-option {{unit === '坪' ? 'active' : ''}}"
+        bindtap="switchUnit"
+        data-unit="坪"
+      >
+        坪
+      </button>
+    </view>
+  </view>
+
+  <!-- 总计信息 -->
+  <view class="summary-card">
+    <view class="summary-header">
+      <text class="summary-title">计算汇总</text>
+    </view>
+    <view class="summary-content">
+      <view class="summary-item">
+        <text class="summary-label">总面积</text>
+        <text class="summary-value">{{totalArea}}{{unit}}</text>
+      </view>
+      <view class="summary-item" wx:if="{{params.isAdvanced && totalDeductArea > 0}}">
+        <text class="summary-label">扣除面积</text>
+        <text class="summary-value deduct">-{{totalDeductArea}}{{unit}}</text>
+      </view>
+      <view class="divider"></view>
+      <view class="summary-item final">
+        <text class="summary-label">实际面积</text>
+        <text class="summary-value highlight">{{actualArea}}{{unit}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 计算按钮 -->
+  <view class="action-section safe-area-bottom">
+    <button 
+      class="btn-primary haptic-medium {{canCalculate ? '' : 'disabled'}}" 
+      bindtap="calculate" 
+      disabled="{{!canCalculate}}"
+    >
+      <text class="btn-text">计算材料用量</text>
+      <text class="btn-arrow">→</text>
+    </button>
+  </view>
+</view>

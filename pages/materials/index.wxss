@@ -1,0 +1,218 @@
+.container {
+  min-height: 100vh;
+  padding-bottom: 200rpx;
+}
+
+/* 欢迎区域 */
+.welcome-section {
+  padding: 80rpx 32rpx 60rpx;
+  text-align: center;
+  background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+  color: #FFFFFF;
+  margin-bottom: 32rpx;
+}
+
+.welcome-title {
+  font-size: 48rpx;
+  font-weight: 700;
+  margin-bottom: 16rpx;
+  letter-spacing: -1rpx;
+}
+
+.welcome-subtitle {
+  font-size: 28rpx;
+  opacity: 0.9;
+  font-weight: 400;
+}
+
+/* 材料网格 */
+.material-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.material-item {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  border-radius: 24rpx;
+  background: #F2F2F7;
+  border: 3rpx solid transparent;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+}
+
+.material-item.active {
+  background: #E3F2FD;
+  border-color: #007AFF;
+  transform: scale(1.02);
+  box-shadow: 0 8rpx 32rpx rgba(0, 122, 255, 0.2);
+}
+
+.material-icon-wrapper {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 24rpx;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+.material-icon {
+  font-size: 48rpx;
+}
+
+.material-name {
+  font-size: 34rpx;
+  color: #1C1C1E;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+}
+
+.material-desc {
+  font-size: 26rpx;
+  color: #8E8E93;
+  font-weight: 400;
+}
+
+.material-item.active .material-name {
+  color: #007AFF;
+}
+
+.material-item.active .material-desc {
+  color: #007AFF;
+  opacity: 0.8;
+}
+
+/* iOS 选择器 */
+.ios-picker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #F2F2F7;
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.2s ease;
+}
+
+.ios-picker:active {
+  background: #E5E5EA;
+}
+
+.picker-text {
+  font-size: 32rpx;
+  color: #1C1C1E;
+  font-weight: 500;
+}
+
+.picker-arrow {
+  font-size: 32rpx;
+  color: #C7C7CC;
+  font-weight: 600;
+}
+
+/* 高级功能 */
+.advanced-feature {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  background: #F2F2F7;
+  border-radius: 20rpx;
+}
+
+.feature-icon {
+  font-size: 40rpx;
+  margin-right: 24rpx;
+}
+
+.feature-content {
+  flex: 1;
+}
+
+.feature-title {
+  font-size: 30rpx;
+  color: #1C1C1E;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+}
+
+.feature-desc {
+  font-size: 26rpx;
+  color: #8E8E93;
+}
+
+.unlock-btn {
+  background: #007AFF;
+  color: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 16rpx 24rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.unlock-btn.unlocked {
+  background: #34C759;
+}
+
+.unlock-btn:active {
+  transform: scale(0.95);
+}
+
+/* 操作区域 */
+.action-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, #FFFFFF 0%, #FFFFFF 80%, rgba(255, 255, 255, 0.9) 100%);
+  padding: 32rpx;
+  backdrop-filter: blur(20rpx);
+}
+
+.btn-primary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-text {
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.btn-arrow {
+  font-size: 28rpx;
+  font-weight: 600;
+  transition: transform 0.2s ease;
+}
+
+.btn-primary:active .btn-arrow {
+  transform: translateX(8rpx);
+}
+
+/* 动画 */
+.slide-up {
+  animation: slideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(60rpx);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
