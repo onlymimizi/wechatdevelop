@@ -8,6 +8,7 @@ App({
         coefficient: 1.0,   // 基础系数
         unit: '㎡',
         packageSize: 1.2,   // 每箱面积
+        standardSize: 0.36, // 每片面积(60cm×60cm)
         description: '地砖、墙砖用量计算'
       },
       '油漆': {
@@ -15,6 +16,7 @@ App({
         coefficient: 0.35,  // 1㎡需要0.35L油漆
         unit: 'L',
         packageSize: 5,     // 每桶容量
+        standardSize: 1,    // 每升覆盖面积
         description: '墙面涂料用量计算'
       },
       '腻子': {
@@ -22,12 +24,16 @@ App({
         coefficient: 1.2,   // 1㎡需要1.2kg腻子
         unit: 'kg',
         packageSize: 20,    // 每袋重量
+        standardSize: 1,    // 每公斤覆盖面积
         description: '墙面找平用量计算'
       }
     },
     
     // 用户信息
     userInfo: null,
+    
+    // 待处理的计算数据（用于tabBar页面间传递数据）
+    pendingCalculateData: null,
     
     // 云环境ID - 您的真实环境ID
     cloudEnvId: 'dev-1-1g6gx22154b6f469' // 您的云开发环境ID

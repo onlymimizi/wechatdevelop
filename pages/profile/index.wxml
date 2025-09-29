@@ -1,0 +1,173 @@
+<view class="container">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-avatar">
+      <text class="avatar-icon">👤</text>
+    </view>
+    <view class="user-info">
+      <view class="user-name">装修用户</view>
+      <view class="user-desc">精准计算，省心装修</view>
+    </view>
+    <view class="user-badge">
+      <text class="badge-text">VIP</text>
+    </view>
+  </view>
+
+  <!-- 功能菜单 -->
+  <view class="menu-section">
+    <view class="menu-group">
+      <view class="group-title">我的工具</view>
+      
+      <view class="menu-item" bindtap="goToHistory">
+        <view class="menu-icon">
+          <text class="ios-icon">📋</text>
+        </view>
+        <view class="menu-content">
+          <view class="menu-name">计算历史</view>
+          <view class="menu-desc">查看所有计算记录</view>
+        </view>
+        <view class="menu-arrow">
+          <text class="arrow-icon">></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="goToFavorites">
+        <view class="menu-icon">
+          <text class="ios-icon">♥</text>
+        </view>
+        <view class="menu-content">
+          <view class="menu-name">收藏夹</view>
+          <view class="menu-desc">收藏的计算方案</view>
+        </view>
+        <view class="menu-arrow">
+          <text class="arrow-icon">></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="goToTemplates">
+        <view class="menu-icon">
+          <text class="ios-icon">📄</text>
+        </view>
+        <view class="menu-content">
+          <view class="menu-name">模板库</view>
+          <view class="menu-desc">常用计算模板</view>
+        </view>
+        <view class="menu-arrow">
+          <text class="arrow-icon">></text>
+        </view>
+      </view>
+    </view>
+
+    <view class="menu-group">
+      <view class="group-title">设置与帮助</view>
+      
+      <view class="menu-item" bindtap="goToSettings">
+        <view class="menu-icon">
+          <text class="ios-icon">⚙</text>
+        </view>
+        <view class="menu-content">
+          <view class="menu-name">设置</view>
+          <view class="menu-desc">个性化设置</view>
+        </view>
+        <view class="menu-arrow">
+          <text class="arrow-icon">></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="goToHelp">
+        <view class="menu-icon">
+          <text class="ios-icon">?</text>
+        </view>
+        <view class="menu-content">
+          <view class="menu-name">帮助中心</view>
+          <view class="menu-desc">使用指南和常见问题</view>
+        </view>
+        <view class="menu-arrow">
+          <text class="arrow-icon">></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="goToFeedback">
+        <view class="menu-icon">
+          <text class="ios-icon">💬</text>
+        </view>
+        <view class="menu-content">
+          <view class="menu-name">意见反馈</view>
+          <view class="menu-desc">告诉我们您的建议</view>
+        </view>
+        <view class="menu-arrow">
+          <text class="arrow-icon">></text>
+        </view>
+      </view>
+      
+      <view class="menu-item" bindtap="goToAbout">
+        <view class="menu-icon">
+          <text class="ios-icon">i</text>
+        </view>
+        <view class="menu-content">
+          <view class="menu-name">关于我们</view>
+          <view class="menu-desc">版本信息和团队介绍</view>
+        </view>
+        <view class="menu-arrow">
+          <text class="arrow-icon">></text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-cards">
+    <view class="stat-card">
+      <view class="stat-number">{{totalCalculations}}</view>
+      <view class="stat-label">计算次数</view>
+      <text class="stat-icon">📊</text>
+    </view>
+    
+    <view class="stat-card">
+      <view class="stat-number">{{totalArea}}</view>
+      <view class="stat-label">累计面积(㎡)</view>
+      <text class="stat-icon">📏</text>
+    </view>
+    
+    <view class="stat-card">
+      <view class="stat-number">{{savedMoney}}</view>
+      <view class="stat-label">节省费用(元)</view>
+      <text class="stat-icon">💰</text>
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="quick-actions">
+    <button class="action-btn primary" bindtap="goToCalculate">
+      <text class="ios-icon">+</text>
+      <text>开始计算</text>
+    </button>
+    
+    <button class="action-btn secondary" bindtap="shareApp">
+      <text class="ios-icon">📤</text>
+      <text>分享应用</text>
+    </button>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer-section">
+    <view class="disclaimer-card">
+      <view class="disclaimer-header">
+        <text class="ios-icon">⚠️</text>
+        <view class="disclaimer-title">免责声明</view>
+      </view>
+      <view class="disclaimer-content">
+        <text class="disclaimer-text">
+          本小程序提供的计算结果仅供参考，实际用量可能因施工工艺、材料批号、房间形状、铺贴方式等因素略有差异。
+        </text>
+        <text class="disclaimer-text">
+          请用户在实际采购时，结合现场情况和专业建议，适当调整材料用量，以实际情况为准。
+        </text>
+        <text class="disclaimer-text">
+          本应用不承担因计算结果差异而产生的任何损失或责任。
+        </text>
+      </view>
+    </view>
+  </view>
+
+</view>

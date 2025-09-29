@@ -16,13 +16,55 @@ Page({
   },
 
   onLoad(options) {
+    console.log('多房间页面onLoad，接收到的options:', options)
+    
     if (options.params) {
-      const params = JSON.parse(decodeURIComponent(options.params))
-      this.setData({ params })
+      try {
+        const params = JSON.parse(decodeURIComponent(options.params))
+        console.log('解析后的params:', params)
+        this.setData({ params })
+      } catch (error) {
+        console.log('参数解析失败:', error)
+        console.log('原始params字符串:', options.params)
+        // 参数解析失败，设置默认值
+        this.setDefaultParams()
+      }
+    } else {
+      console.log('没有接收到params参数，设置默认值')
+      this.setDefaultParams()
     }
 
     // 埋点：页面访问
     this.trackEvent('page_view', { page: 'house_input' })
+  },
+
+  // 设置默认参数
+  setDefaultParams() {
+    const defaultParams = {
+      material: '瓷砖', // 默认材料
+      area: 0,
+      wasteRate: 5,
+      layout: '正铺',
+      isAdvanced: true
+    }
+    console.log('设置默认参数:', defaultParams)
+    this.setData({ params: defaultParams })
+    
+    // 提示用户重新选择材料
+    wx.showModal({
+      title: '参数缺失',
+      content: '未接收到材料参数，请返回重新选择材料',
+      showCancel: true,
+      cancelText: '继续使用',
+      confirmText: '返回选择',
+      success: (res) => {
+        if (res.confirm) {
+          wx.switchTab({
+            url: '/pages/materials/index'
+          })
+        }
+      }
+    })
   },
 
   // 添加房间
@@ -136,6 +178,15 @@ Page({
       return
     }
 
+    // 检查必要参数
+    if (!this.data.params.material) {
+      wx.showToast({
+        title: '材料信息缺失，请重新选择',
+        icon: 'none'
+      })
+      return
+    }
+
     // 准备计算数据
     const calculateData = Object.assign({}, this.data.params, {
       rooms: this.data.rooms,
@@ -145,9 +196,46 @@ Page({
       timestamp: Date.now()
     })
 
+    console.log('多房间计算：准备的数据', calculateData)
+    console.log('原始params:', this.data.params)
+
+    // 验证计算数据完整性
+    if (!calculateData.material || !calculateData.actualArea) {
+      console.log('计算数据不完整:', calculateData)
+      wx.showToast({
+        title: '计算数据不完整',
+        icon: 'none'
+      })
+      return
+    }
+
     // 跳转到结果页
-    wx.navigateTo({
-      url: `/pages/result/index?data=${encodeURIComponent(JSON.stringify(calculateData))}`
+    // 先存储数据到全局，然后跳转到tabBar页面
+    console.log('多房间计算：存储数据到全局')
+    getApp().globalData.pendingCalculateData = calculateData
+    
+    // 跳转到结果页（tabBar页面）
+    wx.switchTab({
+      url: '/pages/result/index',
+      success: () => {
+        console.log('多房间计算：跳转成功')
+        // 延迟一下确保页面完全加载后再触发数据更新
+        setTimeout(() => {
+          const pages = getCurrentPages()
+          const currentPage = pages[pages.length - 1]
+          if (currentPage.route === 'pages/result/index') {
+            console.log('多房间计算：手动触发result页面数据更新')
+            currentPage.checkAndUpdateData()
+          }
+        }, 100)
+      },
+      fail: (err) => {
+        console.log('多房间计算：跳转失败:', err)
+        wx.showToast({
+          title: '跳转失败',
+          icon: 'none'
+        })
+      }
     })
 
     // 埋点：计算提交

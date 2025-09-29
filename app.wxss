@@ -1,97 +1,360 @@
-/* iOS 风格全局样式 */
+/* ===== 全局CSS变量定义 ===== */
 page {
-  background-color: #F8F8F8;
-  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
-  line-height: 1.4;
+  /* 主色调 */
+  --primary-color: #007AFF;
+  --primary-light: #5AC8FA;
+  --primary-dark: #0056CC;
+  
+  /* 辅助色 */
+  --success-color: #34C759;
+  --success-light: #30D158;
+  --warning-color: #FF9500;
+  --warning-light: #FFAD33;
+  --danger-color: #FF3B30;
+  --danger-light: #FF6961;
+  
+  /* 中性色 */
+  --text-primary: #1D1D1F;
+  --text-secondary: #86868B;
+  --text-tertiary: #C7C7CC;
+  --text-white: #FFFFFF;
+  
+  /* 背景色 */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8F9FA;
+  --bg-tertiary: #F2F2F7;
+  --bg-quaternary: #E5E5EA;
+  
+  /* 边框色 */
+  --border-light: rgba(0, 0, 0, 0.04);
+  --border-medium: rgba(0, 0, 0, 0.08);
+  --border-heavy: rgba(0, 0, 0, 0.12);
+  
+  /* 阴影 */
+  --shadow-light: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  --shadow-medium: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+  --shadow-heavy: 0 8rpx 32rpx rgba(0, 0, 0, 0.12);
+  --shadow-primary: 0 4rpx 16rpx rgba(0, 122, 255, 0.3);
+  --shadow-success: 0 4rpx 16rpx rgba(52, 199, 89, 0.3);
+  
+  /* 圆角 */
+  --radius-small: 12rpx;
+  --radius-medium: 16rpx;
+  --radius-large: 20rpx;
+  --radius-xlarge: 24rpx;
+  --radius-xxlarge: 32rpx;
+  
+  /* 字体大小 */
+  --font-size-xs: 20rpx;
+  --font-size-sm: 24rpx;
+  --font-size-base: 28rpx;
+  --font-size-lg: 32rpx;
+  --font-size-xl: 36rpx;
+  --font-size-2xl: 44rpx;
+  --font-size-3xl: 48rpx;
+  --font-size-4xl: 56rpx;
+  --font-size-5xl: 64rpx;
+  
+  /* 字体权重 */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-heavy: 800;
+  
+  /* 间距 */
+  --spacing-xs: 8rpx;
+  --spacing-sm: 12rpx;
+  --spacing-base: 16rpx;
+  --spacing-lg: 24rpx;
+  --spacing-xl: 32rpx;
+  --spacing-2xl: 40rpx;
+  --spacing-3xl: 48rpx;
+  --spacing-4xl: 60rpx;
+  
+  /* 过渡动画 */
+  --transition-fast: 0.2s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.4s ease;
+  --transition-bounce: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* iOS 卡片样式 */
+/* ===== 全局基础样式 ===== */
+page {
+  background-color: var(--bg-secondary);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  line-height: 1.4;
+  color: var(--text-primary);
+}
+
+/* ===== 卡片组件 ===== */
 .card {
-  background: #FFFFFF;
-  border-radius: 20rpx;
-  margin: 24rpx 32rpx;
-  padding: 32rpx;
-  box-shadow: 0 2rpx 20rpx rgba(0, 0, 0, 0.04);
-  border: 1rpx solid rgba(0, 0, 0, 0.05);
+  background: var(--bg-primary);
+  border-radius: var(--radius-xlarge);
+  margin: var(--spacing-lg) var(--spacing-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-medium);
+  border: 1rpx solid var(--border-light);
+  transition: var(--transition-fast);
+}
+
+.card:active {
+  transform: scale(0.98);
+  box-shadow: var(--shadow-light);
 }
 
 .card-title {
-  font-size: 40rpx;
-  font-weight: 600;
-  color: #1C1C1E;
-  margin-bottom: 32rpx;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xl);
   letter-spacing: -0.5rpx;
 }
 
-/* iOS 按钮样式 */
-.btn-primary {
-  background: #007AFF;
-  color: #FFFFFF;
-  border-radius: 24rpx;
-  padding: 28rpx 48rpx;
-  font-size: 32rpx;
-  font-weight: 600;
+.card-subtitle {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.5;
+}
+
+/* ===== 按钮组件 ===== */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
   border: none;
-  box-shadow: 0 4rpx 16rpx rgba(0, 122, 255, 0.3);
-  transition: all 0.2s ease;
+  border-radius: var(--radius-xlarge);
+  font-weight: var(--font-weight-semibold);
+  transition: var(--transition-bounce);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn:active::before {
+  left: 100%;
+}
+
+/* 主要按钮 */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+  color: var(--text-white);
+  padding: var(--spacing-base) var(--spacing-3xl);
+  font-size: var(--font-size-lg);
+  box-shadow: var(--shadow-primary);
 }
 
 .btn-primary:active {
-  transform: scale(0.98);
   box-shadow: 0 2rpx 8rpx rgba(0, 122, 255, 0.4);
 }
 
+/* 次要按钮 */
 .btn-secondary {
-  background: #F2F2F7;
-  color: #007AFF;
-  border-radius: 24rpx;
-  padding: 26rpx 46rpx;
-  font-size: 30rpx;
-  font-weight: 500;
-  border: none;
-  transition: all 0.2s ease;
+  background: var(--bg-tertiary);
+  color: var(--primary-color);
+  padding: var(--spacing-base) var(--spacing-3xl);
+  font-size: var(--font-size-base);
+  border: 2rpx solid var(--bg-quaternary);
 }
 
 .btn-secondary:active {
-  background: #E5E5EA;
-  transform: scale(0.98);
+  background: var(--bg-quaternary);
 }
 
-/* iOS 输入框样式 */
+/* 成功按钮 */
+.btn-success {
+  background: linear-gradient(135deg, var(--success-color) 0%, var(--success-light) 100%);
+  color: var(--text-white);
+  padding: var(--spacing-base) var(--spacing-3xl);
+  font-size: var(--font-size-lg);
+  box-shadow: var(--shadow-success);
+}
+
+/* 警告按钮 */
+.btn-warning {
+  background: linear-gradient(135deg, var(--warning-color) 0%, var(--warning-light) 100%);
+  color: var(--text-white);
+  padding: var(--spacing-base) var(--spacing-3xl);
+  font-size: var(--font-size-lg);
+  box-shadow: 0 4rpx 16rpx rgba(255, 149, 0, 0.3);
+}
+
+/* 危险按钮 */
+.btn-danger {
+  background: linear-gradient(135deg, var(--danger-color) 0%, var(--danger-light) 100%);
+  color: var(--text-white);
+  padding: var(--spacing-base) var(--spacing-3xl);
+  font-size: var(--font-size-lg);
+  box-shadow: 0 4rpx 16rpx rgba(255, 59, 48, 0.3);
+}
+
+/* 小尺寸按钮 */
+.btn-small {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-large);
+}
+
+/* 大尺寸按钮 */
+.btn-large {
+  padding: var(--spacing-lg) var(--spacing-4xl);
+  font-size: var(--font-size-xl);
+  border-radius: var(--radius-xxlarge);
+}
+
+/* 块级按钮 */
+.btn-block {
+  width: 100%;
+}
+
+/* ===== 输入框组件 ===== */
 .input-group {
-  margin-bottom: 32rpx;
+  margin-bottom: var(--spacing-xl);
 }
 
 .input-label {
-  font-size: 30rpx;
-  color: #3C3C43;
-  margin-bottom: 16rpx;
-  font-weight: 500;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-base);
+  font-weight: var(--font-weight-medium);
+  display: block;
 }
 
 .input-field {
-  background: #F2F2F7;
-  border-radius: 20rpx;
-  padding: 28rpx 32rpx;
-  font-size: 32rpx;
+  width: 100%;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-medium);
+  padding: var(--spacing-base) var(--spacing-lg);
+  font-size: var(--font-size-lg);
   border: 2rpx solid transparent;
-  color: #1C1C1E;
-  transition: all 0.2s ease;
+  color: var(--text-primary);
+  transition: var(--transition-fast);
+  box-sizing: border-box;
 }
 
 .input-field:focus {
-  border-color: #007AFF;
-  background: #FFFFFF;
+  border-color: var(--primary-color);
+  background: var(--bg-primary);
   box-shadow: 0 0 0 6rpx rgba(0, 122, 255, 0.1);
+  outline: none;
 }
 
-/* iOS 结果展示 */
+.input-field::placeholder {
+  color: var(--text-secondary);
+}
+
+/* 输入框状态 */
+.input-field.error {
+  border-color: var(--danger-color);
+  background: rgba(255, 59, 48, 0.05);
+}
+
+.input-field.success {
+  border-color: var(--success-color);
+  background: rgba(52, 199, 89, 0.05);
+}
+
+/* 输入框尺寸 */
+.input-small {
+  padding: var(--spacing-sm) var(--spacing-base);
+  font-size: var(--font-size-base);
+}
+
+.input-large {
+  padding: var(--spacing-lg) var(--spacing-xl);
+  font-size: var(--font-size-xl);
+}
+
+/* ===== 选择器组件 ===== */
+.picker-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-tertiary);
+  border: 2rpx solid transparent;
+  border-radius: var(--radius-medium);
+  padding: var(--spacing-base) var(--spacing-lg);
+  transition: var(--transition-fast);
+}
+
+.picker-field:active {
+  background: var(--bg-quaternary);
+  transform: scale(0.98);
+}
+
+.picker-text {
+  font-size: var(--font-size-lg);
+  color: var(--text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+.picker-arrow {
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ===== 导航栏组件 ===== */
+.nav-header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+  padding: 80rpx var(--spacing-xl) 60rpx;
+  text-align: center;
+  color: var(--text-white);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+  animation: float 8s ease-in-out infinite;
+}
+
+.nav-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-sm);
+  letter-spacing: -0.5rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.nav-subtitle {
+  font-size: var(--font-size-base);
+  opacity: 0.9;
+  font-weight: var(--font-weight-normal);
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== 结果展示组件 ===== */
 .result-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24rpx 0;
-  border-bottom: 1rpx solid #E5E5EA;
+  padding: var(--spacing-lg) 0;
+  border-bottom: 1rpx solid var(--bg-quaternary);
 }
 
 .result-item:last-child {
@@ -99,83 +362,221 @@ page {
 }
 
 .result-label {
-  font-size: 30rpx;
-  color: #8E8E93;
-  font-weight: 500;
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
 }
 
 .result-value {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #007AFF;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--primary-color);
 }
 
-/* iOS 分割线 */
+/* ===== 徽章组件 ===== */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xs) var(--spacing-base);
+  border-radius: var(--radius-large);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: 1;
+}
+
+.badge-primary {
+  background: var(--primary-color);
+  color: var(--text-white);
+}
+
+.badge-success {
+  background: var(--success-color);
+  color: var(--text-white);
+}
+
+.badge-warning {
+  background: var(--warning-color);
+  color: var(--text-white);
+}
+
+.badge-danger {
+  background: var(--danger-color);
+  color: var(--text-white);
+}
+
+.badge-light {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+/* ===== 分割线组件 ===== */
 .divider {
   height: 1rpx;
-  background: #E5E5EA;
-  margin: 24rpx 0;
+  background: var(--bg-quaternary);
+  margin: var(--spacing-lg) 0;
 }
 
-/* iOS 工具类 */
-.text-center {
-  text-align: center;
+.divider-thick {
+  height: 2rpx;
+  background: var(--bg-quaternary);
+  margin: var(--spacing-xl) 0;
 }
 
-.mt-16 {
-  margin-top: 32rpx;
+/* ===== 工具类 ===== */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.text-white { color: var(--text-white); }
+.text-success { color: var(--success-color); }
+.text-warning { color: var(--warning-color); }
+.text-danger { color: var(--danger-color); }
+
+.bg-primary { background-color: var(--bg-primary); }
+.bg-secondary { background-color: var(--bg-secondary); }
+.bg-tertiary { background-color: var(--bg-tertiary); }
+
+.font-xs { font-size: var(--font-size-xs); }
+.font-sm { font-size: var(--font-size-sm); }
+.font-base { font-size: var(--font-size-base); }
+.font-lg { font-size: var(--font-size-lg); }
+.font-xl { font-size: var(--font-size-xl); }
+.font-2xl { font-size: var(--font-size-2xl); }
+.font-3xl { font-size: var(--font-size-3xl); }
+
+.font-normal { font-weight: var(--font-weight-normal); }
+.font-medium { font-weight: var(--font-weight-medium); }
+.font-semibold { font-weight: var(--font-weight-semibold); }
+.font-bold { font-weight: var(--font-weight-bold); }
+.font-heavy { font-weight: var(--font-weight-heavy); }
+
+.flex { display: flex; }
+.flex-column { flex-direction: column; }
+.flex-center { justify-content: center; align-items: center; }
+.flex-between { justify-content: space-between; align-items: center; }
+.flex-around { justify-content: space-around; align-items: center; }
+.flex-start { justify-content: flex-start; align-items: center; }
+.flex-end { justify-content: flex-end; align-items: center; }
+
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-around { justify-content: space-around; }
+.justify-start { justify-content: flex-start; }
+.justify-end { justify-content: flex-end; }
+
+/* 间距工具类 */
+.m-0 { margin: 0; }
+.m-xs { margin: var(--spacing-xs); }
+.m-sm { margin: var(--spacing-sm); }
+.m-base { margin: var(--spacing-base); }
+.m-lg { margin: var(--spacing-lg); }
+.m-xl { margin: var(--spacing-xl); }
+
+.mt-0 { margin-top: 0; }
+.mt-xs { margin-top: var(--spacing-xs); }
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-base { margin-top: var(--spacing-base); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mt-xl { margin-top: var(--spacing-xl); }
+.mt-2xl { margin-top: var(--spacing-2xl); }
+.mt-3xl { margin-top: var(--spacing-3xl); }
+
+.mb-0 { margin-bottom: 0; }
+.mb-xs { margin-bottom: var(--spacing-xs); }
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-base { margin-bottom: var(--spacing-base); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+.mb-2xl { margin-bottom: var(--spacing-2xl); }
+.mb-3xl { margin-bottom: var(--spacing-3xl); }
+
+.ml-0 { margin-left: 0; }
+.ml-xs { margin-left: var(--spacing-xs); }
+.ml-sm { margin-left: var(--spacing-sm); }
+.ml-base { margin-left: var(--spacing-base); }
+.ml-lg { margin-left: var(--spacing-lg); }
+.ml-xl { margin-left: var(--spacing-xl); }
+
+.mr-0 { margin-right: 0; }
+.mr-xs { margin-right: var(--spacing-xs); }
+.mr-sm { margin-right: var(--spacing-sm); }
+.mr-base { margin-right: var(--spacing-base); }
+.mr-lg { margin-right: var(--spacing-lg); }
+.mr-xl { margin-right: var(--spacing-xl); }
+
+.p-0 { padding: 0; }
+.p-xs { padding: var(--spacing-xs); }
+.p-sm { padding: var(--spacing-sm); }
+.p-base { padding: var(--spacing-base); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+
+.pt-0 { padding-top: 0; }
+.pt-xs { padding-top: var(--spacing-xs); }
+.pt-sm { padding-top: var(--spacing-sm); }
+.pt-base { padding-top: var(--spacing-base); }
+.pt-lg { padding-top: var(--spacing-lg); }
+.pt-xl { padding-top: var(--spacing-xl); }
+
+.pb-0 { padding-bottom: 0; }
+.pb-xs { padding-bottom: var(--spacing-xs); }
+.pb-sm { padding-bottom: var(--spacing-sm); }
+.pb-base { padding-bottom: var(--spacing-base); }
+.pb-lg { padding-bottom: var(--spacing-lg); }
+.pb-xl { padding-bottom: var(--spacing-xl); }
+
+.pl-0 { padding-left: 0; }
+.pl-xs { padding-left: var(--spacing-xs); }
+.pl-sm { padding-left: var(--spacing-sm); }
+.pl-base { padding-left: var(--spacing-base); }
+.pl-lg { padding-left: var(--spacing-lg); }
+.pl-xl { padding-left: var(--spacing-xl); }
+
+.pr-0 { padding-right: 0; }
+.pr-xs { padding-right: var(--spacing-xs); }
+.pr-sm { padding-right: var(--spacing-sm); }
+.pr-base { padding-right: var(--spacing-base); }
+.pr-lg { padding-right: var(--spacing-lg); }
+.pr-xl { padding-right: var(--spacing-xl); }
+
+/* ===== 动画效果 ===== */
+.fade-in {
+  animation: fadeIn 0.6s ease both;
 }
 
-.mt-20 {
-  margin-top: 40rpx;
+.slide-up {
+  animation: slideUp 0.6s var(--transition-bounce) both;
 }
 
-.mb-16 {
-  margin-bottom: 32rpx;
+.slide-down {
+  animation: slideDown 0.6s var(--transition-bounce) both;
 }
 
-.mb-20 {
-  margin-bottom: 40rpx;
+.slide-left {
+  animation: slideLeft 0.6s var(--transition-bounce) both;
 }
 
-.flex {
-  display: flex;
+.slide-right {
+  animation: slideRight 0.6s var(--transition-bounce) both;
 }
 
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.scale-in {
+  animation: scaleIn 0.4s var(--transition-bounce) both;
 }
 
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.bounce-in {
+  animation: bounceIn 0.6s ease both;
 }
 
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-/* iOS 页面过渡动画 */
-.page-enter {
-  animation: slideInRight 0.3s ease-out;
-}
-
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-/* iOS 触觉反馈样式 */
+/* ===== 触觉反馈 ===== */
 .haptic-light:active {
   transform: scale(0.98);
 }
@@ -184,7 +585,133 @@ page {
   transform: scale(0.96);
 }
 
-/* iOS 安全区域适配 */
+.haptic-heavy:active {
+  transform: scale(0.94);
+}
+
+/* ===== 安全区域适配 ===== */
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
 .safe-area-bottom {
   padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-area-left {
+  padding-left: env(safe-area-inset-left);
+}
+
+.safe-area-right {
+  padding-right: env(safe-area-inset-right);
+}
+
+/* ===== 关键帧动画 ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(60rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-60rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(60rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-60rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+  }
+}
+
+/* ===== 响应式适配 ===== */
+@media (max-width: 375px) {
+  .nav-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .card-title {
+    font-size: var(--font-size-lg);
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-sm) var(--spacing-lg);
+  }
+  
+  .input-field {
+    font-size: var(--font-size-base);
+    padding: var(--spacing-sm) var(--spacing-base);
+  }
 }

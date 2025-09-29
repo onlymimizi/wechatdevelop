@@ -8,60 +8,145 @@ Page({
   },
 
   onLoad(options) {
-    if (options.data) {
+    // tabBar页面不能通过URL参数传递数据，从全局获取
+    const app = getApp()
+    if (app.globalData.pendingCalculateData) {
+      const calculateData = app.globalData.pendingCalculateData
+      this.setData({ calculateData })
+      this.calculateResult()
+      // 清除全局数据
+      app.globalData.pendingCalculateData = null
+    } else if (options.data) {
+      // 兼容旧的URL参数方式
       const calculateData = JSON.parse(decodeURIComponent(options.data))
       this.setData({ calculateData })
       this.calculateResult()
     }
 
-    // 初始化插屏广告
-    this.initInterstitialAd()
+    // 初始化插屏广告 - 暂时注释，等申请广告位后启用
+    // this.initInterstitialAd()
 
     // 埋点：页面访问
     this.trackEvent('page_view', { page: 'result' })
   },
 
   onShow() {
-    // 显示插屏广告
-    this.showInterstitialAd()
+    console.log('result页面onShow被调用')
+    this.checkAndUpdateData()
+
+    // 显示插屏广告 - 暂时注释，等申请广告位后启用
+    // this.showInterstitialAd()
+    
+    // 更新 tabBar 选中状态
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 1
+      })
+    }
   },
 
-  // 初始化插屏广告
+  // 检查并更新数据
+  checkAndUpdateData() {
+    console.log('checkAndUpdateData被调用')
+    
+    // 每次显示页面时检查是否有待处理的数据
+    const app = getApp()
+    if (app.globalData.pendingCalculateData) {
+      console.log('发现新的计算数据，开始处理')
+      const calculateData = app.globalData.pendingCalculateData
+      
+      // 清除旧的结果数据
+      this.setData({ 
+        calculateData: calculateData,
+        result: {} // 清空旧结果
+      })
+      
+      // 重新计算
+      this.calculateResult()
+      
+      // 清除全局数据
+      app.globalData.pendingCalculateData = null
+      console.log('全局数据已清除')
+    } else {
+      console.log('没有新的计算数据')
+    }
+  },
+
+  onHide() {
+    // 页面隐藏时的处理
+  },
+
+  onShow() {
+    // 显示插屏广告 - 暂时注释，等申请广告位后启用
+    // this.showInterstitialAd()
+    
+    // 更新 tabBar 选中状态
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 1
+      })
+    }
+  },
+
+  // 初始化插屏广告 - 暂时注释，等申请广告位后启用
   initInterstitialAd() {
-    if (wx.createInterstitialAd) {
-      this.data.interstitialAd = wx.createInterstitialAd({
-        unitId: 'REPLACE_INTERSTITIAL_ID' // 需要替换为真实的广告位ID
-      })
+    // if (wx.createInterstitialAd) {
+    //   this.data.interstitialAd = wx.createInterstitialAd({
+    //     unitId: 'YOUR_REAL_AD_UNIT_ID' // 申请广告位后替换为真实ID
+    //   })
 
-      this.data.interstitialAd.onLoad(() => {
-        console.log('插屏广告加载成功')
-      })
+    //   this.data.interstitialAd.onLoad(() => {
+    //     console.log('插屏广告加载成功')
+    //   })
 
-      this.data.interstitialAd.onError((err) => {
-        console.log('插屏广告加载失败', err)
-      })
+    //   this.data.interstitialAd.onError((err) => {
+    //     console.log('插屏广告加载失败', err)
+    //   })
 
-      this.data.interstitialAd.onClose(() => {
-        console.log('插屏广告关闭')
-      })
-    }
+    //   this.data.interstitialAd.onClose(() => {
+    //     console.log('插屏广告关闭')
+    //   })
+    // }
   },
 
-  // 显示插屏广告
+  // 显示插屏广告 - 暂时注释，等申请广告位后启用
   showInterstitialAd() {
-    if (this.data.interstitialAd) {
-      this.data.interstitialAd.show().catch((err) => {
-        console.log('插屏广告显示失败', err)
-      })
-    }
+    // if (this.data.interstitialAd) {
+    //   this.data.interstitialAd.show().catch((err) => {
+    //     console.log('插屏广告显示失败', err)
+    //   })
+    // }
   },
 
   // 计算结果
   calculateResult() {
+    console.log('开始计算结果')
     const { calculateData } = this.data
+    console.log('计算数据:', calculateData)
+    
+    if (!calculateData || !calculateData.material) {
+      console.log('计算数据不完整')
+      wx.showToast({
+        title: '数据错误',
+        icon: 'none'
+      })
+      return
+    }
+    
     const materialConfig = app.globalData.materialConfig[calculateData.material]
+    console.log('材料配置:', materialConfig)
+    
+    if (!materialConfig) {
+      console.log('找不到材料配置')
+      wx.showToast({
+        title: '材料配置错误',
+        icon: 'none'
+      })
+      return
+    }
     
     let actualArea = calculateData.actualArea
+    console.log('实际面积:', actualArea)
     
     // 单位转换回平方米进行计算
     if (calculateData.unit === '坪') {
@@ -128,7 +213,12 @@ Page({
       details
     }
 
+    console.log('计算结果:', result)
     this.setData({ result })
+    console.log('页面数据已更新')
+
+    // 自动保存记录
+    this.saveRecord()
 
     // 埋点：计算完成
     this.trackEvent('calculate_complete', {
@@ -246,12 +336,20 @@ ${result.packages ? `包装数量：${result.packages}包/箱` : ''}
       unit: calculateData.unit,
       result: result.totalAmount,
       resultUnit: result.unit,
-      wasteRate: calculateData.wasteRate,
+      wasteRate: calculateData.wasteRate, // 保持原始百分比格式
       layout: calculateData.layout,
       isAdvanced: calculateData.isAdvanced,
       rooms: calculateData.rooms,
       timestamp: Date.now(),
-      createTime: new Date().toISOString()
+      createTime: new Date().toISOString(),
+      // 添加估算费用用于统计
+      totalCost: this.estimateCost(calculateData.material, calculateData.actualArea)
+    }
+
+    // 如果云开发不可用，使用本地存储
+    if (!wx.cloud) {
+      this.saveToLocal(record)
+      return
     }
 
     wx.cloud.callFunction({
@@ -259,7 +357,7 @@ ${result.packages ? `包装数量：${result.packages}包/箱` : ''}
       data: record,
       success: (res) => {
         wx.hideLoading()
-        if (res.result.success) {
+        if (res.result && res.result.success) {
           wx.showToast({
             title: '保存成功',
             icon: 'success'
@@ -270,21 +368,141 @@ ${result.packages ? `包装数量：${result.packages}包/箱` : ''}
             recordId: res.result.recordId
           })
         } else {
-          wx.showToast({
-            title: '保存失败',
-            icon: 'none'
-          })
+          // 云函数调用失败，使用本地存储
+          this.saveToLocal(record)
         }
       },
       fail: (err) => {
         wx.hideLoading()
-        wx.showToast({
-          title: '保存失败',
-          icon: 'none'
-        })
-        console.log('保存记录失败', err)
+        console.log('云函数调用失败，使用本地存储', err)
+        // 云函数调用失败，使用本地存储
+        this.saveToLocal(record)
       }
     })
+  },
+
+  // 保存到本地存储
+  saveToLocal(record) {
+    try {
+      // 生成本地ID
+      record._id = 'local_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+      
+      // 获取现有记录
+      const existingRecords = wx.getStorageSync('calc_records') || []
+      
+      // 添加新记录到开头
+      existingRecords.unshift(record)
+      
+      // 只保留最近50条记录
+      if (existingRecords.length > 50) {
+        existingRecords.splice(50)
+      }
+      
+      // 保存到本地
+      wx.setStorageSync('calc_records', existingRecords)
+      
+      wx.hideLoading()
+      wx.showToast({
+        title: '保存成功',
+        icon: 'success'
+      })
+      
+      // 埋点：本地保存记录
+      this.trackEvent('save_record_local', { 
+        material: record.material,
+        recordId: record._id
+      })
+    } catch (error) {
+      wx.hideLoading()
+      wx.showToast({
+        title: '保存失败',
+        icon: 'none'
+      })
+      console.log('本地保存失败', error)
+    }
+  },
+
+  // 返回上一页
+  goBack() {
+    // 由于结果页面是tabBar页面，无法使用navigateBack
+    // 改为跳转到材料选择页面重新开始计算
+    wx.switchTab({
+      url: '/pages/materials/index'
+    })
+  },
+
+  // 跳转到高级计算
+  goToAdvancedCalc() {
+    // 如果有当前计算数据，使用当前数据；否则使用默认参数
+    let params
+    
+    if (this.data.material && this.data.actualArea) {
+      // 使用当前计算数据
+      params = {
+        material: this.data.material,
+        area: this.data.actualArea,
+        wasteRate: this.data.wasteRate / 100,
+        layout: this.data.layout || '正铺',
+        isAdvanced: true
+      }
+    } else {
+      // 使用默认参数，让用户在多房间页面重新设置
+      params = {
+        material: '瓷砖',
+        area: 0,
+        wasteRate: 0.05,
+        layout: '正铺',
+        isAdvanced: true
+      }
+    }
+
+    console.log('跳转到高级计算，参数:', params)
+
+    wx.navigateTo({
+      url: `/pages/input/house?params=${encodeURIComponent(JSON.stringify(params))}`
+    })
+  },
+
+  // 跳转到成本分析
+  goToCostAnalysis() {
+    wx.showToast({
+      title: '功能开发中',
+      icon: 'none'
+    })
+  },
+
+  // 跳转到选材指南
+  goToMaterialGuide() {
+    wx.showToast({
+      title: '功能开发中',
+      icon: 'none'
+    })
+  },
+
+  // 跳转到附近商家
+  goToSupplierMap() {
+    wx.showToast({
+      title: '功能开发中',
+      icon: 'none'
+    })
+  },
+
+  // 保存结果
+  saveResult() {
+    this.saveRecord()
+  },
+
+  // 分享结果
+  shareResult() {
+    this.copyResult()
+  },
+
+  // 估算费用
+  estimateCost(material, area) {
+    // 简单估算：瓷砖100元/㎡，地板150元/㎡，腻子30元/㎡
+    const unitPrice = material === '瓷砖' ? 100 : 
+                     material === '地板' ? 150 : 30
+    return Math.round(area * unitPrice)
   },
 
   // 埋点事件

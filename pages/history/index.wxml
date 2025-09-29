@@ -1,85 +1,98 @@
-<view class="container page-enter">
-  <!-- 页面标题 -->
-  <view class="page-header">
-    <text class="page-title">计算历史</text>
-    <text class="page-subtitle">查看和管理您的计算记录</text>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="nav-header">
+    <view class="nav-title">计算历史</view>
+    <view class="nav-subtitle">查看和管理历史记录</view>
   </view>
 
-  <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{records.length === 0 && !loading}}">
-    <view class="empty-icon">📋</view>
-    <view class="empty-title">暂无计算记录</view>
-    <view class="empty-subtitle">开始您的第一次材料计算吧</view>
-    <button class="btn-primary haptic-medium" bindtap="goToCalculate">
-      <text class="btn-text">开始计算</text>
-      <text class="btn-arrow">→</text>
-    </button>
-  </view>
-
-  <!-- 记录列表 -->
-  <view class="records-container" wx:else>
-    <view class="record-card haptic-light" wx:for="{{records}}" wx:key="_id">
-      <view class="record-header">
-        <view class="material-info">
+  <!-- 历史记录列表 -->
+  <view class="records-list" wx:if="{{records.length > 0}}">
+    <view 
+      class="record-card"
+      wx:for="{{records}}"
+      wx:key="_id"
+    >
+      <!-- 卡片头部 -->
+      <view class="card-header">
+        <view class="header-left">
           <view class="material-badge">{{item.material}}</view>
-          <view class="record-meta">
-            <text class="record-time">{{item.formatTime}}</text>
-            <view class="advanced-indicator" wx:if="{{item.isAdvanced}}">
-              <text class="advanced-text">高级</text>
-            </view>
-          </view>
+          <view class="advanced-badge" wx:if="{{item.isAdvanced}}">高级计算</view>
+        </view>
+        <view class="header-right">
+          <text class="record-time">{{item.formatTime}}</text>
         </view>
       </view>
-      
-      <view class="record-body">
+
+      <!-- 卡片主体 -->
+      <view class="card-body">
         <!-- 主要结果 -->
         <view class="main-result">
-          <view class="result-label">建议用量</view>
-          <view class="result-amount">
-            <text class="amount-number">{{item.result}}</text>
-            <text class="amount-unit">{{item.resultUnit}}</text>
+          <view class="result-label">建议购买量</view>
+          <view class="result-display">
+            <text class="result-number">{{item.result}}</text>
+            <text class="result-unit">{{item.resultUnit}}</text>
           </view>
         </view>
 
         <!-- 详细信息 -->
-        <view class="detail-grid">
-          <view class="detail-item">
-            <text class="detail-label">面积</text>
-            <text class="detail-value">{{item.area}}{{item.unit}}</text>
+        <view class="details-section">
+          <view class="detail-row">
+            <view class="detail-item">
+              <text class="detail-icon">📏</text>
+              <view class="detail-content">
+                <view class="detail-label">面积</view>
+                <view class="detail-value">{{item.area}} {{item.unit}}</view>
+              </view>
+            </view>
+            <view class="detail-item">
+              <text class="detail-icon">📊</text>
+              <view class="detail-content">
+                <view class="detail-label">损耗率</view>
+                <view class="detail-value">{{item.wasteRate}}%</view>
+              </view>
+            </view>
           </view>
-          <view class="detail-item">
-            <text class="detail-label">损耗率</text>
-            <text class="detail-value">{{item.wasteRate}}%</text>
-          </view>
-          <view class="detail-item" wx:if="{{item.layout}}">
-            <text class="detail-label">铺贴方式</text>
-            <text class="detail-value">{{item.layout}}</text>
-          </view>
-          <view class="detail-item" wx:if="{{item.rooms && item.rooms.length > 1}}">
-            <text class="detail-label">房间数</text>
-            <text class="detail-value">{{item.rooms.length}}个</text>
+          
+          <view class="detail-row" wx:if="{{item.layout}}">
+            <view class="detail-item">
+              <text class="detail-icon">⬜</text>
+              <view class="detail-content">
+                <view class="detail-label">铺贴方式</view>
+                <view class="detail-value">{{item.layout}}</view>
+              </view>
+            </view>
+            <view class="detail-item" wx:if="{{item.totalCost}}">
+              <text class="detail-icon">💰</text>
+              <view class="detail-content">
+                <view class="detail-label">预估费用</view>
+                <view class="detail-value">¥{{item.totalCost}}</view>
+              </view>
+            </view>
           </view>
         </view>
 
-        <!-- 房间列表 -->
-        <view class="room-tags" wx:if="{{item.rooms && item.rooms.length > 1}}">
-          <view class="room-tag" wx:for="{{item.rooms}}" wx:key="index" wx:for-item="room">
-            {{room.name}}
+        <!-- 房间信息 -->
+        <view class="rooms-section" wx:if="{{item.rooms && item.rooms.length > 1}}">
+          <view class="rooms-label">房间信息</view>
+          <view class="room-tags">
+            <text class="room-tag" wx:for="{{item.rooms}}" wx:key="name" wx:for-item="room">
+              {{room.name}} {{room.area}}㎡
+            </text>
           </view>
         </view>
       </view>
 
-      <!-- 操作按钮 -->
-      <view class="record-actions">
-        <button class="action-btn recalc haptic-light" bindtap="recalculate" data-record="{{item}}">
+      <!-- 卡片底部操作 -->
+      <view class="card-footer">
+        <button class="action-button recalc" catchtap="recalculate" data-record="{{item}}">
           <text class="action-icon">🔄</text>
-          <text class="action-text">重算</text>
+          <text class="action-text">重新计算</text>
         </button>
-        <button class="action-btn copy haptic-light" bindtap="copyRecord" data-record="{{item}}">
+        <button class="action-button copy" catchtap="copyRecord" data-record="{{item}}">
           <text class="action-icon">📋</text>
-          <text class="action-text">复制</text>
+          <text class="action-text">复制结果</text>
         </button>
-        <button class="action-btn delete haptic-light" bindtap="deleteRecord" data-id="{{item._id}}">
+        <button class="action-button delete" catchtap="deleteRecord" data-id="{{item._id}}">
           <text class="action-icon">🗑️</text>
           <text class="action-text">删除</text>
         </button>
@@ -87,16 +100,36 @@
     </view>
   </view>
 
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{!loading && records.length === 0}}">
+    <view class="empty-illustration">
+      <text class="empty-icon">📋</text>
+      <view class="empty-decoration"></view>
+    </view>
+    <view class="empty-content">
+      <view class="empty-title">暂无计算历史</view>
+      <view class="empty-subtitle">开始您的第一次材料计算吧</view>
+    </view>
+    <button class="start-button" bindtap="goToCalculate">
+      <text class="button-text">开始计算</text>
+      <text class="button-arrow">→</text>
+    </button>
+  </view>
+
   <!-- 加载状态 -->
-  <view class="loading-container" wx:if="{{loading}}">
+  <view class="loading-state" wx:if="{{loading}}">
     <view class="loading-spinner"></view>
     <text class="loading-text">加载中...</text>
   </view>
 
   <!-- 加载更多 -->
   <view class="load-more-section" wx:if="{{records.length > 0 && hasMore}}">
-    <button class="load-more-btn haptic-light" bindtap="loadMore" disabled="{{loadingMore}}">
+    <button class="load-more-button" bindtap="loadMore" disabled="{{loadingMore}}">
       <text class="load-more-text">{{loadingMore ? '加载中...' : '加载更多'}}</text>
+      <text class="load-more-icon" wx:if="{{!loadingMore}}">↓</text>
     </button>
   </view>
+
+  <!-- 安全区域 -->
+  <view class="safe-area-bottom"></view>
 </view>

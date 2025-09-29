@@ -1,218 +1,544 @@
+/* iOS 风格图标样式 */
+.ios-icon {
+  font-size: 20rpx;
+  line-height: 1;
+  display: inline-block;
+}
+
+.check-icon {
+  color: #FFFFFF;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.input-icon {
+  font-size: 32rpx;
+  opacity: 0.6;
+}
+
+.btn-icon {
+  margin-left: 8rpx;
+  font-size: 28rpx;
+}
+
+/* 容器样式 */
 .container {
   min-height: 100vh;
+  background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%);
   padding-bottom: 200rpx;
 }
 
-/* 欢迎区域 */
-.welcome-section {
-  padding: 80rpx 32rpx 60rpx;
+/* 顶部导航栏 */
+.nav-header {
+  padding: 60rpx 40rpx 40rpx;
   text-align: center;
-  background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
-  color: #FFFFFF;
-  margin-bottom: 32rpx;
+  background: #FFFFFF;
+  border-radius: 0 0 40rpx 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  margin-bottom: 40rpx;
 }
 
-.welcome-title {
+.nav-title {
   font-size: 48rpx;
-  font-weight: 700;
-  margin-bottom: 16rpx;
-  letter-spacing: -1rpx;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 8rpx;
 }
 
-.welcome-subtitle {
+.nav-subtitle {
   font-size: 28rpx;
-  opacity: 0.9;
+  color: #86868B;
   font-weight: 400;
 }
 
-/* 材料网格 */
-.material-grid {
+/* 内容容器 */
+.content-container {
+  padding: 0 40rpx;
+}
+
+/* 材料分组 */
+.material-group {
+  margin-bottom: 60rpx;
+}
+
+.group-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32rpx;
+  padding: 0 8rpx;
+}
+
+.group-header .ios-icon {
+  margin-right: 16rpx;
+  font-size: 36rpx;
+}
+
+.group-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-right: 16rpx;
+}
+
+.group-subtitle {
+  font-size: 24rpx;
+  color: #86868B;
+  font-weight: 400;
+}
+
+/* 材料卡片 */
+.material-cards {
   display: flex;
   flex-direction: column;
   gap: 24rpx;
 }
 
-.material-item {
+.material-card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 32rpx;
   display: flex;
   align-items: center;
-  padding: 32rpx;
-  border-radius: 24rpx;
-  background: #F2F2F7;
-  border: 3rpx solid transparent;
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: 2rpx solid #F2F2F7;
+  transition: all 0.3s ease;
   position: relative;
+  overflow: hidden;
 }
 
-.material-item.active {
-  background: #E3F2FD;
+.material-card.selected {
   border-color: #007AFF;
-  transform: scale(1.02);
-  box-shadow: 0 8rpx 32rpx rgba(0, 122, 255, 0.2);
+  background: linear-gradient(135deg, #007AFF08 0%, #007AFF15 100%);
+  box-shadow: 0 8rpx 32rpx rgba(0, 122, 255, 0.15);
 }
 
-.material-icon-wrapper {
-  width: 96rpx;
-  height: 96rpx;
-  border-radius: 24rpx;
-  background: #FFFFFF;
+.card-icon {
+  width: 80rpx;
+  height: 80rpx;
+  background: #F2F2F7;
+  border-radius: 20rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 24rpx;
-  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
 }
 
-.material-icon {
-  font-size: 48rpx;
-}
-
-.material-name {
-  font-size: 34rpx;
-  color: #1C1C1E;
-  font-weight: 600;
-  margin-bottom: 8rpx;
-}
-
-.material-desc {
-  font-size: 26rpx;
-  color: #8E8E93;
-  font-weight: 400;
-}
-
-.material-item.active .material-name {
-  color: #007AFF;
-}
-
-.material-item.active .material-desc {
-  color: #007AFF;
-  opacity: 0.8;
-}
-
-/* iOS 选择器 */
-.ios-picker {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #F2F2F7;
-  border-radius: 20rpx;
-  padding: 28rpx 32rpx;
-  border: 2rpx solid transparent;
-  transition: all 0.2s ease;
-}
-
-.ios-picker:active {
-  background: #E5E5EA;
-}
-
-.picker-text {
-  font-size: 32rpx;
-  color: #1C1C1E;
-  font-weight: 500;
-}
-
-.picker-arrow {
-  font-size: 32rpx;
-  color: #C7C7CC;
-  font-weight: 600;
-}
-
-/* 高级功能 */
-.advanced-feature {
-  display: flex;
-  align-items: center;
-  padding: 24rpx;
-  background: #F2F2F7;
-  border-radius: 20rpx;
-}
-
-.feature-icon {
+.card-icon .ios-icon {
   font-size: 40rpx;
-  margin-right: 24rpx;
 }
 
-.feature-content {
+.material-card.selected .card-icon {
+  background: #007AFF15;
+}
+
+.card-content {
   flex: 1;
 }
 
-.feature-title {
-  font-size: 30rpx;
-  color: #1C1C1E;
+.card-name {
+  font-size: 32rpx;
   font-weight: 600;
+  color: #1D1D1F;
   margin-bottom: 8rpx;
 }
 
-.feature-desc {
+.card-desc {
   font-size: 26rpx;
-  color: #8E8E93;
+  color: #86868B;
+  margin-bottom: 16rpx;
+}
+
+.card-features {
+  display: flex;
+  gap: 12rpx;
+}
+
+.feature-tag {
+  background: #F2F2F7;
+  color: #86868B;
+  font-size: 20rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 12rpx;
+  font-weight: 500;
+}
+
+.material-card.selected .feature-tag {
+  background: #007AFF20;
+  color: #007AFF;
+}
+
+.selection-indicator {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 24rpx;
+  background: #F2F2F7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.selection-indicator.active {
+  background: #007AFF;
+  transform: scale(1.1);
+}
+
+/* 参数设置区域 */
+.params-section {
+  margin-bottom: 60rpx;
+  opacity: 0;
+  transform: translateY(40rpx);
+  transition: all 0.4s ease;
+}
+
+.params-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 32rpx;
+  padding: 0 8rpx;
+}
+
+.section-header .ios-icon {
+  margin-right: 16rpx;
+  font-size: 36rpx;
+}
+
+.section-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #1D1D1F;
+}
+
+.input-group {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  border: 2rpx solid #F2F2F7;
+}
+
+.input-item {
+  margin-bottom: 32rpx;
+}
+
+.input-item:last-child {
+  margin-bottom: 0;
+}
+
+.input-label {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 16rpx;
+}
+
+.label-text {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #1D1D1F;
+}
+
+.label-unit {
+  font-size: 24rpx;
+  color: #86868B;
+  margin-left: 8rpx;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #F2F2F7;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+  background: #FFFFFF;
+  border-color: #007AFF;
+  box-shadow: 0 0 0 6rpx rgba(0, 122, 255, 0.1);
+}
+
+.modern-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1D1D1F;
+  background: transparent;
+}
+
+.modern-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #F2F2F7;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  border: 2rpx solid transparent;
+  transition: all 0.3s ease;
+}
+
+.picker-value {
+  font-size: 28rpx;
+  color: #1D1D1F;
+}
+
+.arrow-icon {
+  font-size: 32rpx;
+  color: #86868B;
+  font-weight: bold;
+}
+
+/* 高级功能区域 */
+.advanced-section {
+  margin-bottom: 60rpx;
+  opacity: 0;
+  transform: translateY(40rpx);
+  transition: all 0.4s ease 0.2s;
+}
+
+.advanced-section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.advanced-card {
+  background: linear-gradient(135deg, #007AFF08 0%, #34C75915 100%);
+  border-radius: 24rpx;
+  padding: 32rpx;
+  border: 2rpx solid #007AFF20;
+  display: flex;
+  align-items: center;
+}
+
+.advanced-content {
+  flex: 1;
+  margin-right: 24rpx;
+}
+
+.advanced-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 8rpx;
+}
+
+.advanced-desc {
+  font-size: 26rpx;
+  color: #86868B;
+  margin-bottom: 16rpx;
+  line-height: 1.4;
+}
+
+.advanced-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.benefit-item {
+  font-size: 24rpx;
+  color: #007AFF;
+  font-weight: 500;
 }
 
 .unlock-btn {
   background: #007AFF;
   color: #FFFFFF;
   border-radius: 20rpx;
-  padding: 16rpx 24rpx;
+  padding: 20rpx 32rpx;
   font-size: 26rpx;
   font-weight: 600;
   border: none;
-  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
 }
 
 .unlock-btn.unlocked {
   background: #34C759;
 }
 
-.unlock-btn:active {
-  transform: scale(0.95);
+.unlock-btn::after {
+  border: none;
 }
 
-/* 操作区域 */
-.action-section {
+/* 快捷功能区域 */
+.shortcuts-section {
+  margin-bottom: 60rpx;
+}
+
+.shortcuts-grid {
+  display: flex;
+  gap: 24rpx;
+}
+
+.shortcut-item {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 32rpx 24rpx;
+  text-align: center;
+  border: 2rpx solid #F2F2F7;
+  transition: all 0.3s ease;
+}
+
+.shortcut-item:active {
+  transform: scale(0.95);
+  background: #F8F9FA;
+}
+
+.shortcut-item .ios-icon {
+  font-size: 48rpx;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.shortcut-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 8rpx;
+}
+
+.shortcut-desc {
+  font-size: 24rpx;
+  color: #86868B;
+}
+
+/* 固定底部按钮 */
+.bottom-action {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, #FFFFFF 0%, #FFFFFF 80%, rgba(255, 255, 255, 0.9) 100%);
-  padding: 32rpx;
+  padding: 16rpx 40rpx;
+  padding-bottom: calc(16rpx + env(safe-area-inset-bottom));
+  transform: translateY(100%);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bottom-action.visible {
+  transform: translateY(0);
+}
+
+.action-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(248, 249, 250, 0) 0%, rgba(248, 249, 250, 0.95) 30%, rgba(248, 249, 250, 1) 100%);
   backdrop-filter: blur(20rpx);
 }
 
-.btn-primary {
-  width: 100%;
+.primary-button {
+  background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 2rpx 8rpx rgba(0, 122, 255, 0.2);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+  margin-bottom: 12rpx;
+}
+
+.primary-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 1rpx 4rpx rgba(0, 122, 255, 0.3);
+}
+
+.primary-button::after {
+  border: none;
+}
+
+.secondary-button {
+  background: linear-gradient(135deg, #34C759 0%, #28A745 100%);
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 2rpx 8rpx rgba(52, 199, 89, 0.2);
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
+}
+
+.secondary-button:active {
+  transform: scale(0.98);
+  box-shadow: 0 1rpx 4rpx rgba(52, 199, 89, 0.3);
+}
+
+.secondary-button::after {
+  border: none;
+}
+
+.basic-calc {
+  background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+}
+
+.advanced-calc {
+  background: linear-gradient(135deg, #34C759 0%, #28A745 100%);
+}
+
+.button-content {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16rpx;
-  position: relative;
-  overflow: hidden;
 }
 
-.btn-text {
+.button-icon {
+  margin-left: 16rpx;
+}
+
+.arrow {
   font-size: 32rpx;
-  font-weight: 600;
+  font-weight: bold;
 }
 
-.btn-arrow {
+/* 隐藏状态 */
+.hide {
+  display: none;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 免责声明 */
+.disclaimer {
+  margin-bottom: 60rpx;
+  background: #FFF9E6;
+  border: 2rpx solid #FFD60A;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.disclaimer-title {
+  display: flex;
+  align-items: center;
   font-size: 28rpx;
   font-weight: 600;
-  transition: transform 0.2s ease;
+  color: #FF9500;
+  margin-bottom: 12rpx;
 }
 
-.btn-primary:active .btn-arrow {
-  transform: translateX(8rpx);
+.disclaimer-title .ios-icon {
+  font-size: 32rpx;
+  margin-right: 8rpx;
 }
 
-/* 动画 */
-.slide-up {
-  animation: slideUp 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-@keyframes slideUp {
-  from {
-    transform: translateY(60rpx);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.disclaimer-text {
+  font-size: 24rpx;
+  color: #8B6914;
+  line-height: 1.5;
 }

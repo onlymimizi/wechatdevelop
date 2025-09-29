@@ -383,3 +383,32 @@
 .btn-primary:not(.disabled):active .btn-arrow {
   transform: translateX(8rpx);
 }
+
+/* 免责声明 */
+.disclaimer {
+  margin: 24rpx 32rpx;
+  background: #FFF9E6;
+  border: 2rpx solid #FFD60A;
+  border-radius: 16rpx;
+  padding: 24rpx;
+}
+
+.disclaimer-title {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FF9500;
+  margin-bottom: 12rpx;
+}
+
+.disclaimer-title .ios-icon {
+  font-size: 32rpx;
+  margin-right: 8rpx;
+}
+
+.disclaimer-text {
+  font-size: 24rpx;
+  color: #8B6914;
+  line-height: 1.5;
+}

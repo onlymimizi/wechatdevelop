@@ -1,0 +1,276 @@
+/* iOS 风格图标样式 */
+.ios-icon {
+  font-size: 20rpx;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* 容器样式 */
+.container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%);
+  padding-bottom: 40rpx;
+}
+
+/* 用户信息卡片 */
+.user-card {
+  margin: 40rpx;
+  background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+  border-radius: 24rpx;
+  padding: 40rpx;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+  box-shadow: 0 8rpx 32rpx rgba(0, 122, 255, 0.3);
+}
+
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 32rpx;
+}
+
+.avatar-icon {
+  font-size: 60rpx;
+  color: #FFFFFF;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  margin-bottom: 8rpx;
+}
+
+.user-desc {
+  font-size: 26rpx;
+  opacity: 0.8;
+}
+
+.user-badge {
+  background: #34C759;
+  padding: 12rpx 24rpx;
+  border-radius: 16rpx;
+}
+
+.badge-text {
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+/* 功能菜单 */
+.menu-section {
+  margin: 0 40rpx 40rpx;
+}
+
+.menu-group {
+  margin-bottom: 40rpx;
+}
+
+.group-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 24rpx;
+  padding: 0 8rpx;
+}
+
+.menu-item {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 32rpx;
+  margin-bottom: 16rpx;
+  display: flex;
+  align-items: center;
+  border: 2rpx solid #F2F2F7;
+  transition: all 0.3s ease;
+}
+
+.menu-item:last-child {
+  margin-bottom: 0;
+}
+
+.menu-item:active {
+  background: #F8F9FA;
+  transform: scale(0.98);
+}
+
+.menu-icon {
+  width: 80rpx;
+  height: 80rpx;
+  background: #F2F2F7;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.menu-icon .ios-icon {
+  font-size: 40rpx;
+}
+
+.menu-content {
+  flex: 1;
+}
+
+.menu-name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 8rpx;
+}
+
+.menu-desc {
+  font-size: 26rpx;
+  color: #86868B;
+}
+
+.menu-arrow {
+  width: 40rpx;
+  height: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow-icon {
+  font-size: 32rpx;
+  color: #86868B;
+  font-weight: bold;
+}
+
+/* 统计卡片 */
+.stats-cards {
+  display: flex;
+  gap: 24rpx;
+  margin: 0 40rpx 40rpx;
+}
+
+.stat-card {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 32rpx 24rpx;
+  text-align: center;
+  border: 2rpx solid #F2F2F7;
+  position: relative;
+}
+
+.stat-number {
+  font-size: 48rpx;
+  font-weight: 700;
+  color: #007AFF;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #86868B;
+  margin-bottom: 16rpx;
+}
+
+.stat-icon {
+  position: absolute;
+  top: 24rpx;
+  right: 24rpx;
+  font-size: 32rpx;
+  opacity: 0.3;
+}
+
+/* 快捷操作 */
+.quick-actions {
+  display: flex;
+  gap: 24rpx;
+  margin: 0 40rpx;
+}
+
+.action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8rpx 32rpx rgba(0, 122, 255, 0.3);
+}
+
+.action-btn.secondary {
+  background: #F2F2F7;
+  color: #1D1D1F;
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+}
+
+.action-btn.secondary:active {
+  background: #E5E5EA;
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.action-btn .ios-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+/* 免责声明 */
+.disclaimer-section {
+  margin: 40rpx;
+}
+
+.disclaimer-card {
+  background: #FFF9E6;
+  border: 2rpx solid #FFD60A;
+  border-radius: 20rpx;
+  padding: 32rpx;
+}
+
+.disclaimer-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.disclaimer-header .ios-icon {
+  font-size: 36rpx;
+  margin-right: 12rpx;
+}
+
+.disclaimer-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #FF9500;
+}
+
+.disclaimer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.disclaimer-text {
+  font-size: 26rpx;
+  color: #8B6914;
+  line-height: 1.6;
+}

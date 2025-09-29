@@ -3,7 +3,8 @@
     "pages/materials/index",
     "pages/input/house",
     "pages/result/index",
-    "pages/history/index"
+    "pages/history/index",
+    "pages/profile/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -11,6 +12,30 @@
     "navigationBarTitleText": "装修计算器",
     "navigationBarTextStyle": "black",
     "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#86868B",
+    "selectedColor": "#007AFF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/materials/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/result/index", 
+        "text": "计算"
+      },
+      {
+        "pagePath": "pages/history/index",
+        "text": "历史"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
   },
   "lazyCodeLoading": "requiredComponents",
   "cloud": true,

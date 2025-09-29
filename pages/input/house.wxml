@@ -158,6 +158,17 @@
     </view>
   </view>
 
+  <!-- 免责声明 -->
+  <view class="disclaimer">
+    <view class="disclaimer-title">
+      <text class="ios-icon">⚠️</text>
+      <text>免责声明</text>
+    </view>
+    <view class="disclaimer-text">
+      计算结果仅供参考，实际用量可能因施工工艺、材料批号等因素略有差异，请以实际情况为准。
+    </view>
+  </view>
+
   <!-- 计算按钮 -->
   <view class="action-section safe-area-bottom">
     <button 

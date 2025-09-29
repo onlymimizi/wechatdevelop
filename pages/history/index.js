@@ -17,6 +17,13 @@ Page({
   onShow() {
     // 刷新数据
     this.refreshRecords()
+    
+    // 更新 tabBar 选中状态
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 2
+      })
+    }
   },
 
   // 加载记录
@@ -27,6 +34,16 @@ Page({
       this.setData({ loadingMore: true })
     }
 
+    // 优先尝试云开发，失败则使用本地存储
+    if (wx.cloud) {
+      this.loadFromCloud(isLoadMore)
+    } else {
+      this.loadFromLocal(isLoadMore)
+    }
+  },
+
+  // 从云开发加载记录
+  loadFromCloud(isLoadMore) {
     const skip = isLoadMore ? this.data.currentPage * this.data.pageSize : 0
 
     wx.cloud.callFunction({
@@ -36,9 +53,10 @@ Page({
         limit: this.data.pageSize
       },
       success: (res) => {
-        if (res.result.success) {
+        if (res.result && res.result.success) {
           const newRecords = res.result.records.map(record => ({
             ...record,
+            wasteRate: this.fixWasteRate(record.wasteRate), // 修正损耗率
             formatTime: this.formatTime(record.timestamp)
           }))
 
@@ -57,28 +75,51 @@ Page({
             loadingMore: false
           })
         } else {
-          this.setData({ 
-            loading: false, 
-            loadingMore: false 
-          })
-          wx.showToast({
-            title: '加载失败',
-            icon: 'none'
-          })
+          // 云开发失败，尝试本地存储
+          this.loadFromLocal(isLoadMore)
         }
       },
       fail: (err) => {
-        this.setData({ 
-          loading: false, 
-          loadingMore: false 
-        })
-        wx.showToast({
-          title: '加载失败',
-          icon: 'none'
-        })
-        console.log('加载记录失败', err)
+        console.log('云开发加载失败，使用本地存储', err)
+        // 云开发失败，使用本地存储
+        this.loadFromLocal(isLoadMore)
       }
     })
+  },
+
+  // 从本地存储加载记录
+  loadFromLocal(isLoadMore) {
+    try {
+      const allRecords = wx.getStorageSync('calc_records') || []
+      const skip = isLoadMore ? this.data.currentPage * this.data.pageSize : 0
+      const newRecords = allRecords.slice(skip, skip + this.data.pageSize).map(record => ({
+        ...record,
+        wasteRate: this.fixWasteRate(record.wasteRate), // 修正损耗率
+        formatTime: this.formatTime(record.timestamp)
+      }))
+
+      let records = []
+      if (isLoadMore) {
+        records = [...this.data.records, ...newRecords]
+      } else {
+        records = newRecords
+      }
+
+      this.setData({
+        records,
+        hasMore: skip + newRecords.length < allRecords.length,
+        currentPage: isLoadMore ? this.data.currentPage + 1 : 1,
+        loading: false,
+        loadingMore: false
+      })
+    } catch (error) {
+      console.log('本地存储加载失败', error)
+      this.setData({ 
+        loading: false, 
+        loadingMore: false,
+        records: []
+      })
+    }
   },
 
   // 刷新记录
@@ -100,20 +141,61 @@ Page({
 
   // 重新计算
   recalculate(e) {
+    console.log('recalculate 被调用')
     const record = e.currentTarget.dataset.record
+    console.log('记录数据:', record)
     
-    // 构造参数
-    const params = {
-      material: record.material,
-      area: record.area,
-      wasteRate: record.wasteRate,
-      layout: record.layout || '正铺',
-      isAdvanced: record.isAdvanced || false
+    if (!record) {
+      wx.showToast({
+        title: '数据错误',
+        icon: 'none'
+      })
+      return
     }
 
-    // 跳转到房间输入页
-    wx.navigateTo({
-      url: `/pages/input/house?params=${encodeURIComponent(JSON.stringify(params))}`
+    // 直接构造计算数据并跳转到结果页
+    const calculateData = {
+      material: record.material,
+      actualArea: parseFloat(record.area),
+      unit: record.unit || '㎡',
+      wasteRate: record.wasteRate,
+      layout: record.layout || '正铺',
+      isAdvanced: record.isAdvanced || false,
+      rooms: record.rooms || [{
+        name: '房间1',
+        area: record.area,
+        specialCoefficientIndex: 0
+      }]
+    }
+
+    console.log('跳转数据:', calculateData)
+
+    // 先存储数据到全局，然后跳转到tabBar页面
+    console.log('存储重新计算数据到全局')
+    getApp().globalData.pendingCalculateData = calculateData
+    
+    // 跳转到结果页（tabBar页面）
+    wx.switchTab({
+      url: '/pages/result/index',
+      success: () => {
+        console.log('跳转成功')
+        // 延迟一下确保页面完全加载后再触发数据更新
+        setTimeout(() => {
+          const pages = getCurrentPages()
+          const currentPage = pages[pages.length - 1]
+          if (currentPage.route === 'pages/result/index') {
+            console.log('手动触发result页面数据更新')
+            currentPage.checkAndUpdateData()
+          }
+        }, 100)
+      },
+      fail: (err) => {
+        console.log('跳转失败:', err)
+        wx.showToast({
+          title: '跳转失败',
+          icon: 'none'
+        })
+      }
     })
 
     // 埋点：重新计算
@@ -166,44 +248,80 @@ Page({
       content: '删除后无法恢复，确定要删除这条记录吗？',
       success: (res) => {
         if (res.confirm) {
-          wx.showLoading({ title: '删除中...' })
-          
-          wx.cloud.callFunction({
-            name: 'deleteCalcRecord',
-            data: { recordId },
-            success: (res) => {
-              wx.hideLoading()
-              if (res.result.success) {
-                // 从列表中移除
-                const records = this.data.records.filter(record => record._id !== recordId)
-                this.setData({ records })
-                
-                wx.showToast({
-                  title: '删除成功',
-                  icon: 'success'
-                })
-
-                // 埋点：删除记录
-                this.trackEvent('delete_record', { recordId })
-              } else {
-                wx.showToast({
-                  title: '删除失败',
-                  icon: 'none'
-                })
-              }
-            },
-            fail: (err) => {
-              wx.hideLoading()
-              wx.showToast({
-                title: '删除失败',
-                icon: 'none'
-              })
-              console.log('删除记录失败', err)
-            }
-          })
+          this.performDelete(recordId)
         }
       }
     })
+  },
+
+  // 执行删除操作
+  performDelete(recordId) {
+    wx.showLoading({ title: '删除中...' })
+    
+    // 优先尝试云开发删除
+    if (wx.cloud) {
+      wx.cloud.callFunction({
+        name: 'deleteCalcRecord',
+        data: { recordId },
+        success: (res) => {
+          wx.hideLoading()
+          if (res.result && res.result.success) {
+            this.removeRecordFromList(recordId)
+            wx.showToast({
+              title: '删除成功',
+              icon: 'success'
+            })
+            // 埋点：删除记录
+            this.trackEvent('delete_record', { recordId })
+          } else {
+            // 云开发删除失败，尝试本地删除
+            this.deleteFromLocal(recordId)
+          }
+        },
+        fail: (err) => {
+          console.log('云开发删除失败，尝试本地删除', err)
+          // 云开发删除失败，尝试本地删除
+          this.deleteFromLocal(recordId)
+        }
+      })
+    } else {
+      // 直接使用本地删除
+      this.deleteFromLocal(recordId)
+    }
+  },
+
+  // 从本地存储删除
+  deleteFromLocal(recordId) {
+    try {
+      const allRecords = wx.getStorageSync('calc_records') || []
+      const filteredRecords = allRecords.filter(record => record._id !== recordId)
+      
+      wx.setStorageSync('calc_records', filteredRecords)
+      
+      this.removeRecordFromList(recordId)
+      
+      wx.hideLoading()
+      wx.showToast({
+        title: '删除成功',
+        icon: 'success'
+      })
+      
+      // 埋点：删除记录
+      this.trackEvent('delete_record', { recordId })
+    } catch (error) {
+      wx.hideLoading()
+      wx.showToast({
+        title: '删除失败',
+        icon: 'none'
+      })
+      console.log('本地删除失败', error)
+    }
+  },
+
+  // 从列表中移除记录
+  removeRecordFromList(recordId) {
+    const records = this.data.records.filter(record => record._id !== recordId)
+    this.setData({ records })
   },
 
   // 前往计算页
@@ -211,6 +329,15 @@ Page({
     wx.switchTab({
       url: '/pages/materials/index'
     })
+  },
+
+  // 修正损耗率数据
+  fixWasteRate(wasteRate) {
+    // 如果损耗率大于50，说明是错误的数据（被多乘了100）
+    if (wasteRate > 50) {
+      return Math.round(wasteRate / 100 * 10) / 10 // 除以100并保留1位小数
+    }
+    return wasteRate
   },
 
   // 格式化时间

@@ -1,107 +1,240 @@
-<view class="container page-enter">
-  <!-- 欢迎区域 -->
-  <view class="welcome-section">
-    <view class="welcome-title">装修计算器</view>
-    <view class="welcome-subtitle">精准计算材料用量，让装修更省心</view>
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="nav-header">
+    <view class="nav-title">装修计算器</view>
+    <view class="nav-subtitle">精准计算，省心装修</view>
   </view>
 
-  <!-- 材料选择卡片 -->
-  <view class="card">
-    <view class="card-title">选择材料类型</view>
-    <view class="material-grid">
-      <view 
-        class="material-item haptic-light {{selectedMaterial === '瓷砖' ? 'active' : ''}}"
-        bindtap="selectMaterial"
-        data-material="瓷砖"
-      >
-        <view class="material-icon-wrapper">
-          <text class="material-icon">🏠</text>
-        </view>
-        <text class="material-name">瓷砖</text>
-        <text class="material-desc">地砖、墙砖计算</text>
-      </view>
-      <view 
-        class="material-item haptic-light {{selectedMaterial === '油漆' ? 'active' : ''}}"
-        bindtap="selectMaterial"
-        data-material="油漆"
-      >
-        <view class="material-icon-wrapper">
-          <text class="material-icon">🎨</text>
-        </view>
-        <text class="material-name">油漆</text>
-        <text class="material-desc">墙面涂料计算</text>
-      </view>
-      <view 
-        class="material-item haptic-light {{selectedMaterial === '腻子' ? 'active' : ''}}"
-        bindtap="selectMaterial"
-        data-material="腻子"
-      >
-        <view class="material-icon-wrapper">
-          <text class="material-icon">🔧</text>
-        </view>
-        <text class="material-name">腻子</text>
-        <text class="material-desc">墙面找平计算</text>
-      </view>
-    </view>
-  </view>
-
-  <!-- 基础参数设置 -->
-  <view class="card slide-up" wx:if="{{selectedMaterial}}">
-    <view class="card-title">基础参数</view>
+  <!-- 主要内容区域 -->
+  <view class="content-container">
     
-    <view class="input-group">
-      <view class="input-label">面积 (㎡)</view>
-      <input 
-        class="input-field" 
-        type="digit" 
-        placeholder="请输入面积"
-        value="{{area}}"
-        bindinput="onAreaInput"
-      />
-    </view>
-
-    <view class="input-group">
-      <view class="input-label">损耗率 (%)</view>
-      <input 
-        class="input-field" 
-        type="digit" 
-        placeholder="建议{{defaultWaste}}%"
-        value="{{wasteRate}}"
-        bindinput="onWasteRateInput"
-      />
-    </view>
-
-    <view class="input-group" wx:if="{{selectedMaterial === '瓷砖'}}">
-      <view class="input-label">铺贴方式</view>
-      <picker bindchange="onLayoutChange" value="{{layoutIndex}}" range="{{layoutOptions}}">
-        <view class="ios-picker">
-          <text class="picker-text">{{layoutOptions[layoutIndex]}}</text>
-          <text class="picker-arrow">›</text>
-        </view>
-      </picker>
-    </view>
-  </view>
-
-  <!-- 高级场景 -->
-  <view class="card slide-up" wx:if="{{selectedMaterial}}" style="animation-delay: 0.1s;">
-    <view class="card-title">高级功能</view>
-    <view class="advanced-feature">
-      <view class="feature-icon">✨</view>
-      <view class="feature-content">
-        <view class="feature-title">复杂场景计算</view>
-        <view class="feature-desc">异型房间、复杂铺贴等高级计算</view>
+    <!-- 瓷砖类材料分组 -->
+    <view class="material-group">
+      <view class="group-header">
+        <text class="ios-icon">🏠</text>
+        <view class="group-title">瓷砖类材料</view>
+        <view class="group-subtitle">地面、墙面铺贴材料</view>
       </view>
-      <button class="unlock-btn {{isAdvancedUnlocked ? 'unlocked' : ''}}" bindtap="unlockAdvanced">
-        {{isAdvancedUnlocked ? '已解锁' : '解锁'}}
-      </button>
+      
+      <view class="material-cards">
+        <view 
+          class="material-card {{selectedMaterial === '瓷砖' ? 'selected' : ''}}"
+          bindtap="selectMaterial"
+          data-material="瓷砖"
+        >
+          <view class="card-icon">
+            <text class="ios-icon">⬜</text>
+          </view>
+          <view class="card-content">
+            <view class="card-name">瓷砖</view>
+            <view class="card-desc">地砖、墙砖用量计算</view>
+            <view class="card-features">
+              <text class="feature-tag">多种规格</text>
+              <text class="feature-tag">损耗计算</text>
+            </view>
+          </view>
+          <view class="selection-indicator {{selectedMaterial === '瓷砖' ? 'active' : ''}}">
+            <text class="check-icon">✓</text>
+          </view>
+        </view>
+      </view>
     </view>
+
+    <!-- 涂料类材料分组 -->
+    <view class="material-group">
+      <view class="group-header">
+        <text class="ios-icon">🎨</text>
+        <view class="group-title">涂料类材料</view>
+        <view class="group-subtitle">墙面装饰涂料</view>
+      </view>
+      
+      <view class="material-cards">
+        <view 
+          class="material-card {{selectedMaterial === '油漆' ? 'selected' : ''}}"
+          bindtap="selectMaterial"
+          data-material="油漆"
+        >
+          <view class="card-icon">
+            <text class="ios-icon">🎨</text>
+          </view>
+          <view class="card-content">
+            <view class="card-name">油漆</view>
+            <view class="card-desc">墙面涂料用量计算</view>
+            <view class="card-features">
+              <text class="feature-tag">覆盖率高</text>
+              <text class="feature-tag">环保无味</text>
+            </view>
+          </view>
+          <view class="selection-indicator {{selectedMaterial === '油漆' ? 'active' : ''}}">
+            <text class="check-icon">✓</text>
+          </view>
+        </view>
+
+        <view 
+          class="material-card {{selectedMaterial === '腻子' ? 'selected' : ''}}"
+          bindtap="selectMaterial"
+          data-material="腻子"
+        >
+          <view class="card-icon">
+            <text class="ios-icon">🔧</text>
+          </view>
+          <view class="card-content">
+            <view class="card-name">腻子</view>
+            <view class="card-desc">墙面找平用量计算</view>
+            <view class="card-features">
+              <text class="feature-tag">找平专用</text>
+              <text class="feature-tag">附着力强</text>
+            </view>
+          </view>
+          <view class="selection-indicator {{selectedMaterial === '腻子' ? 'active' : ''}}">
+            <text class="check-icon">✓</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 参数设置区域 -->
+    <view class="params-section {{selectedMaterial ? 'show' : 'hide'}}">
+      <view class="section-header">
+        <text class="ios-icon">📏</text>
+        <view class="section-title">基础参数设置</view>
+      </view>
+      
+      <view class="input-group">
+        <view class="input-item">
+          <view class="input-label">
+            <text class="label-text">施工面积</text>
+            <text class="label-unit">(㎡)</text>
+          </view>
+          <view class="input-wrapper">
+            <input 
+              class="modern-input" 
+              type="digit" 
+              placeholder="请输入面积"
+              value="{{area}}"
+              bindinput="onAreaInput"
+            />
+            <text class="input-icon">📏</text>
+          </view>
+        </view>
+        
+        <view class="input-item">
+          <view class="input-label">
+            <text class="label-text">损耗率</text>
+            <text class="label-unit">(%)</text>
+          </view>
+          <view class="input-wrapper">
+            <input 
+              class="modern-input" 
+              type="digit" 
+              placeholder="建议{{defaultWaste}}%"
+              value="{{wasteRate}}"
+              bindinput="onWasteRateInput"
+            />
+            <text class="input-icon">📊</text>
+          </view>
+        </view>
+        
+        <view class="input-item" wx:if="{{selectedMaterial === '瓷砖'}}">
+          <view class="input-label">
+            <text class="label-text">铺贴方式</text>
+          </view>
+          <picker bindchange="onLayoutChange" value="{{layoutIndex}}" range="{{layoutOptions}}">
+            <view class="modern-picker">
+              <text class="picker-value">{{layoutOptions[layoutIndex]}}</text>
+              <view class="picker-icon">
+                <text class="arrow-icon">›</text>
+              </view>
+            </view>
+          </picker>
+        </view>
+      </view>
+    </view>
+
+    <!-- 高级功能区域 -->
+    <view class="advanced-section {{selectedMaterial ? 'show' : 'hide'}}">
+      <view class="section-header">
+        <text class="ios-icon">✨</text>
+        <view class="section-title">高级功能</view>
+      </view>
+      
+      <view class="advanced-card">
+        <view class="advanced-content">
+          <view class="advanced-title">复杂场景计算</view>
+          <view class="advanced-desc">支持异型房间、复杂铺贴方式等高级计算功能 (限时免费体验)</view>
+          <view class="advanced-benefits">
+            <text class="benefit-item">• 多房间计算</text>
+            <text class="benefit-item">• 异型空间</text>
+            <text class="benefit-item">• 精确损耗</text>
+          </view>
+        </view>
+        <view class="advanced-action">
+          <button class="unlock-btn {{isAdvancedUnlocked ? 'unlocked' : ''}}" bindtap="unlockAdvanced">
+            <text class="btn-text">{{isAdvancedUnlocked ? '已解锁' : '免费体验'}}</text>
+            <text class="btn-icon">{{isAdvancedUnlocked ? '✓' : '✨'}}</text>
+          </button>
+        </view>
+      </view>
+    </view>
+
+    <!-- 快捷功能区域 -->
+    <view class="shortcuts-section">
+      <view class="section-header">
+        <text class="ios-icon">⚡</text>
+        <view class="section-title">快捷功能</view>
+      </view>
+      
+      <view class="shortcuts-grid">
+        <view class="shortcut-item" bindtap="goToHistory">
+          <text class="ios-icon">📋</text>
+          <view class="shortcut-name">计算历史</view>
+          <view class="shortcut-desc">查看历史记录</view>
+        </view>
+        
+        <view class="shortcut-item" bindtap="showHelp">
+          <text class="ios-icon">❓</text>
+          <view class="shortcut-name">使用帮助</view>
+          <view class="shortcut-desc">操作指南</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 免责声明 -->
+    <view class="disclaimer">
+      <view class="disclaimer-title">
+        <text class="ios-icon">⚠️</text>
+        <text>温馨提示</text>
+      </view>
+      <view class="disclaimer-text">
+        计算结果仅供参考，实际用量可能因施工工艺、材料批号等因素略有差异，请以实际情况为准。
+      </view>
+    </view>
+
   </view>
 
-  <!-- 操作按钮 -->
-  <view class="action-section safe-area-bottom" wx:if="{{selectedMaterial && area}}">
-    <button class="btn-primary haptic-medium" bindtap="goToHouseInput">
-      <text class="btn-text">{{isAdvancedUnlocked ? '高级计算' : '开始计算'}}</text>
-      <text class="btn-arrow">→</text>
+  <!-- 固定底部按钮 -->
+  <view class="bottom-action {{selectedMaterial && area ? 'visible' : 'hidden'}}">
+    <view class="action-background"></view>
+    
+    <!-- 基础计算按钮 -->
+    <button class="primary-button basic-calc" bindtap="goToBasicCalc">
+      <view class="button-content">
+        <text class="button-label">开始基础计算</text>
+        <view class="button-icon">
+          <text class="arrow">→</text>
+        </view>
+      </view>
+    </button>
+    
+    <!-- 高级计算按钮 -->
+    <button class="secondary-button advanced-calc" bindtap="goToHouseInput" wx:if="{{isAdvancedUnlocked}}">
+      <view class="button-content">
+        <text class="button-label">开始高级计算</text>
+        <view class="button-icon">
+          <text class="arrow">→</text>
+        </view>
+      </view>
     </button>
   </view>
+
 </view>

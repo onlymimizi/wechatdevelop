@@ -1,113 +1,154 @@
-<view class="container page-enter">
-  <!-- 成功头部 -->
-  <view class="success-header">
-    <view class="success-icon">✓</view>
-    <view class="success-title">计算完成</view>
-    <view class="success-subtitle">{{calculateData.material}} · {{calculateData.actualArea}}{{calculateData.unit}}</view>
+<view class="container">
+  <!-- 顶部导航栏 -->
+  <view class="nav-header">
+    <view class="nav-title">计算结果</view>
+    <view class="nav-subtitle">精准用量，合理预算</view>
   </view>
 
-  <!-- Banner 广告区域 -->
-  <view class="ad-section">
-    <ad unit-id="REPLACE_BANNER_ID" ad-type="banner" ad-theme="white"></ad>
-  </view>
-
-  <!-- 主要结果卡片 -->
+  <!-- 计算结果卡片 -->
   <view class="result-card">
     <view class="result-header">
-      <text class="result-title">建议购买</text>
+      <text class="ios-icon">📊</text>
+      <view class="result-title">{{calculateData.material}}用量计算</view>
+      <view class="result-status success">计算完成</view>
     </view>
-    <view class="main-result">
-      <text class="result-amount">{{result.totalAmount}}</text>
-      <text class="result-unit">{{result.unit}}</text>
-    </view>
-    <view class="result-breakdown">
-      <view class="breakdown-item">
-        <text class="breakdown-label">基础用量</text>
-        <text class="breakdown-value">{{result.baseAmount}} {{result.unit}}</text>
+    
+    <view class="result-content">
+      <!-- 基础信息 -->
+      <view class="info-section">
+        <view class="info-item">
+          <view class="info-label">
+            <text class="ios-icon">📏</text>
+            <text>施工面积</text>
+          </view>
+          <view class="info-value">{{calculateData.actualArea}} {{calculateData.unit}}</view>
+        </view>
+        
+        <view class="info-item">
+          <view class="info-label">
+            <text class="ios-icon">📈</text>
+            <text>损耗率</text>
+          </view>
+          <view class="info-value">{{calculateData.wasteRate}}%</view>
+        </view>
+        
+        <view class="info-item" wx:if="{{calculateData.layout}}">
+          <view class="info-label">
+            <text class="ios-icon">⬜</text>
+            <text>铺贴方式</text>
+          </view>
+          <view class="info-value">{{calculateData.layout}}</view>
+        </view>
       </view>
-      <view class="breakdown-item">
-        <text class="breakdown-label">损耗 ({{calculateData.wasteRate}}%)</text>
-        <text class="breakdown-value">+{{result.wasteAmount}} {{result.unit}}</text>
+
+      <!-- 计算结果 -->
+      <view class="calculation-results">
+        <view class="result-item primary">
+          <view class="result-label">基础用量</view>
+          <view class="result-number">{{result.baseAmount}}</view>
+          <view class="result-unit">{{result.unit}}</view>
+        </view>
+        
+        <view class="result-item">
+          <view class="result-label">损耗用量</view>
+          <view class="result-number">{{result.wasteAmount}}</view>
+          <view class="result-unit">{{result.unit}}</view>
+        </view>
+        
+        <view class="result-item highlight">
+          <view class="result-label">建议购买</view>
+          <view class="result-number">{{result.totalAmount}}</view>
+          <view class="result-unit">{{result.unit}}</view>
+        </view>
+        
+        <view class="result-item" wx:if="{{result.packages}}">
+          <view class="result-label">包装数量</view>
+          <view class="result-number">{{result.packages}}</view>
+          <view class="result-unit">包/箱</view>
+        </view>
       </view>
-      <view class="breakdown-item" wx:if="{{result.packages}}">
-        <text class="breakdown-label">包装数量</text>
-        <text class="breakdown-value">{{result.packages}} 包/箱</text>
+
+      <!-- 详细说明 -->
+      <view class="details-section" wx:if="{{result.details}}">
+        <view class="section-title">
+          <text class="ios-icon">📋</text>
+          <text>计算详情</text>
+        </view>
+        
+        <view class="detail-list">
+          <view class="detail-item" wx:for="{{result.details}}" wx:key="label">
+            <text class="detail-label">{{item.label}}</text>
+            <text class="detail-value">{{item.value}}</text>
+          </view>
+        </view>
       </view>
     </view>
   </view>
 
-  <!-- 详细信息 -->
-  <view class="card" wx:if="{{result.details && result.details.length > 0}}">
-    <view class="card-title">详细信息</view>
-    <view class="detail-grid">
-      <view class="detail-card" wx:for="{{result.details}}" wx:key="index">
-        <view class="detail-label">{{item.label}}</view>
-        <view class="detail-value">{{item.value}}</view>
-      </view>
+  <!-- 高级功能卡片 -->
+  <view class="advanced-features">
+    <view class="section-title">
+      <text class="ios-icon">✨</text>
+      <text>更多功能</text>
     </view>
-  </view>
-
-  <!-- 房间明细 -->
-  <view class="card" wx:if="{{calculateData.rooms.length > 1}}">
-    <view class="card-title">房间明细</view>
-    <view class="room-grid">
-      <view class="room-card" wx:for="{{calculateData.rooms}}" wx:key="index">
-        <view class="room-name">{{item.name}}</view>
-        <view class="room-dimensions">{{item.length}}m × {{item.width}}m</view>
-        <view class="room-area">{{item.area}}㎡</view>
-        <view class="room-deduct" wx:if="{{item.deductArea}}">-{{item.deductArea}}㎡</view>
+    
+    <view class="feature-grid">
+      <view class="feature-card" bindtap="goToAdvancedCalc">
+        <text class="feature-icon">🏠</text>
+        <view class="feature-name">多房间计算</view>
+        <view class="feature-desc">支持复杂户型</view>
       </view>
-    </view>
-  </view>
-
-  <!-- 温馨提示 -->
-  <view class="tips-card">
-    <view class="tips-header">
-      <text class="tips-icon">💡</text>
-      <text class="tips-title">温馨提示</text>
-    </view>
-    <view class="tips-content">
-      <view class="tip-item">
-        <text class="tip-dot">•</text>
-        <text class="tip-text">以上结果仅为估算，具体用量请以实物为准</text>
+      
+      <view class="feature-card" bindtap="goToCostAnalysis">
+        <text class="feature-icon">📊</text>
+        <view class="feature-name">成本分析</view>
+        <view class="feature-desc">详细预算报告</view>
       </view>
-      <view class="tip-item">
-        <text class="tip-dot">•</text>
-        <text class="tip-text">建议预留5-10%的额外材料以备不时之需</text>
+      
+      <view class="feature-card" bindtap="goToMaterialGuide">
+        <text class="feature-icon">📋</text>
+        <view class="feature-name">选材指南</view>
+        <view class="feature-desc">专业建议</view>
       </view>
-      <view class="tip-item">
-        <text class="tip-dot">•</text>
-        <text class="tip-text">不同品牌规格可能存在差异，购买前请确认</text>
-      </view>
-      <view class="tip-item">
-        <text class="tip-dot">•</text>
-        <text class="tip-text">如需专业建议请咨询装修师傅</text>
+      
+      <view class="feature-card" bindtap="goToSupplierMap">
+        <text class="feature-icon">📍</text>
+        <view class="feature-name">附近商家</view>
+        <view class="feature-desc">找到优质供应商</view>
       </view>
     </view>
   </view>
 
   <!-- 操作按钮 -->
-  <view class="action-section safe-area-bottom">
-    <view class="action-row">
-      <button class="action-btn secondary haptic-light" bindtap="copyResult">
-        <text class="action-icon">📋</text>
-        <text class="action-text">复制</text>
-      </button>
-      <button class="action-btn secondary haptic-light" bindtap="shareResult">
-        <text class="action-icon">📤</text>
-        <text class="action-text">分享</text>
-      </button>
-      <button class="action-btn primary haptic-medium" bindtap="saveRecord">
-        <text class="action-icon">💾</text>
-        <text class="action-text">保存记录</text>
-      </button>
+  <view class="action-buttons">
+    <button class="secondary-button" bindtap="saveResult">
+      <text class="ios-icon">💾</text>
+      <text>保存结果</text>
+    </button>
+    
+    <button class="primary-button" bindtap="shareResult">
+      <text class="ios-icon">📤</text>
+      <text>分享结果</text>
+    </button>
+  </view>
+
+  <!-- 免责声明 -->
+  <view class="disclaimer">
+    <view class="disclaimer-title">
+      <text class="ios-icon">⚠️</text>
+      <text>免责声明</text>
+    </view>
+    <view class="disclaimer-text">
+      计算结果仅供参考，实际用量可能因施工工艺、材料批号等因素略有差异，请以实际情况为准。
     </view>
   </view>
-</view>
 
-<!-- 分享图生成 Canvas -->
-<canvas 
-  canvas-id="shareCanvas" 
-  class="share-canvas"
-  style="width: 750rpx; height: 1000rpx;"
-></canvas>
+  <!-- 重新计算按钮 -->
+  <view class="recalc-section">
+    <button class="recalc-button" bindtap="goBack">
+      <text class="ios-icon">🔄</text>
+      <text>重新计算</text>
+    </button>
+  </view>
+
+</view>
