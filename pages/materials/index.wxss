@@ -25,7 +25,7 @@
 .container {
   min-height: 100vh;
   background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%);
-  padding-bottom: 200rpx;
+  padding-bottom: 280rpx;
 }
 
 /* 顶部导航栏 */
@@ -438,15 +438,15 @@
   background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
   color: #FFFFFF;
   border-radius: 16rpx;
-  padding: 16rpx 20rpx;
-  font-size: 24rpx;
+  padding: 14rpx 18rpx;
+  font-size: 22rpx;
   font-weight: 600;
   border: none;
   box-shadow: 0 2rpx 8rpx rgba(0, 122, 255, 0.2);
   position: relative;
   z-index: 1;
   transition: all 0.3s ease;
-  margin-bottom: 12rpx;
+  margin-bottom: 10rpx;
 }
 
 .primary-button:active {
@@ -462,8 +462,8 @@
   background: linear-gradient(135deg, #34C759 0%, #28A745 100%);
   color: #FFFFFF;
   border-radius: 16rpx;
-  padding: 16rpx 20rpx;
-  font-size: 24rpx;
+  padding: 14rpx 18rpx;
+  font-size: 22rpx;
   font-weight: 600;
   border: none;
   box-shadow: 0 2rpx 8rpx rgba(52, 199, 89, 0.2);
@@ -516,7 +516,7 @@
 
 /* 免责声明 */
 .disclaimer {
-  margin-bottom: 60rpx;
+  margin-bottom: 120rpx;
   background: #FFF9E6;
   border: 2rpx solid #FFD60A;
   border-radius: 16rpx;
@@ -541,4 +541,188 @@
   font-size: 24rpx;
   color: #8B6914;
   line-height: 1.5;
+}
+
+/* 深色主题样式 */
+.container.dark {
+  background: linear-gradient(180deg, #121212 0%, #1e1e1e 100%);
+  color: #ffffff;
+}
+
+.container.dark .nav-header {
+  background: #1e1e1e;
+  box-shadow: 0 4rpx 20rpx rgba(255, 255, 255, 0.05);
+}
+
+.container.dark .nav-title {
+  color: #ffffff;
+}
+
+.container.dark .nav-subtitle {
+  color: #cccccc;
+}
+
+.container.dark .group-title {
+  color: #ffffff;
+}
+
+.container.dark .group-subtitle {
+  color: #cccccc;
+}
+
+.container.dark .material-card {
+  background: #2c2c2c;
+  border-color: #444444;
+}
+
+.container.dark .material-card.selected {
+  background: linear-gradient(135deg, #007AFF20 0%, #007AFF30 100%);
+  border-color: #007aff;
+}
+
+.container.dark .card-icon {
+  background: #333333;
+}
+
+.container.dark .material-card.selected .card-icon {
+  background: #007AFF30;
+}
+
+.container.dark .card-name {
+  color: #ffffff;
+}
+
+.container.dark .card-desc {
+  color: #cccccc;
+}
+
+.container.dark .feature-tag {
+  background: #333333;
+  color: #cccccc;
+}
+
+.container.dark .material-card.selected .feature-tag {
+  background: #007AFF30;
+  color: #ffffff;
+}
+
+.container.dark .selection-indicator {
+  background: #333333;
+}
+
+.container.dark .selection-indicator.active {
+  background: #007aff;
+}
+
+.container.dark .section-title {
+  color: #ffffff;
+}
+
+.container.dark .input-group {
+  background: #2c2c2c;
+  border-color: #444444;
+}
+
+.container.dark .label-text {
+  color: #ffffff;
+}
+
+.container.dark .label-unit {
+  color: #cccccc;
+}
+
+.container.dark .input-wrapper {
+  background: #333333;
+}
+
+.container.dark .input-wrapper:focus-within {
+  background: #444444;
+  border-color: #007aff;
+}
+
+.container.dark .modern-input {
+  color: #ffffff;
+}
+
+.container.dark .modern-picker {
+  background: #333333;
+}
+
+.container.dark .picker-value {
+  color: #ffffff;
+}
+
+.container.dark .arrow-icon {
+  color: #cccccc;
+}
+
+.container.dark .advanced-card {
+  background: linear-gradient(135deg, #007AFF15 0%, #34C75920 100%);
+  border-color: #007AFF40;
+}
+
+.container.dark .advanced-title {
+  color: #ffffff;
+}
+
+.container.dark .advanced-desc {
+  color: #cccccc;
+}
+
+.container.dark .benefit-item {
+  color: #007AFF;
+}
+
+.container.dark .unlock-btn {
+  background: #007AFF;
+  color: #ffffff;
+}
+
+.container.dark .unlock-btn.unlocked {
+  background: #34C759;
+  color: #ffffff;
+}
+
+.container.dark .shortcut-item {
+  background: #2c2c2c;
+  border-color: #444444;
+}
+
+.container.dark .shortcut-item:active {
+  background: #333333;
+}
+
+.container.dark .shortcut-name {
+  color: #ffffff;
+}
+
+.container.dark .shortcut-desc {
+  color: #cccccc;
+}
+
+.container.dark .action-background {
+  background: linear-gradient(180deg, rgba(18, 18, 18, 0) 0%, rgba(18, 18, 18, 0.95) 30%, rgba(18, 18, 18, 1) 100%);
+}
+
+.container.dark .primary-button {
+  background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+  color: #ffffff;
+}
+
+.container.dark .secondary-button {
+  background: linear-gradient(135deg, #34C759 0%, #28A745 100%);
+  color: #ffffff;
+}
+
+.container.dark .disclaimer {
+  background: #2c2c2c;
+  border-color: #FFD60A;
+}
+
+.container.dark .disclaimer-title {
+  color: #FF9500;
+}
+
+.container.dark .disclaimer-text {
+  color: #cccccc;
 }

@@ -2,11 +2,14 @@ Page({
   data: {
     totalCalculations: 0,
     totalArea: 0,
-    savedMoney: 0
+    savedMoney: 0,
+    isDarkTheme: false
   },
 
   onLoad() {
+    console.log('profile页面onLoad')
     this.loadUserStats()
+    this.checkTheme()
   },
 
   onShow() {
@@ -18,6 +21,27 @@ Page({
     }
     // 刷新统计数据
     this.loadUserStats()
+    // 检查主题
+    this.checkTheme()
+  },
+
+  // 检查并应用主题
+  checkTheme() {
+    const app = getApp()
+    const isDark = app.globalData.isDarkMode
+    console.log('profile页面主题状态:', isDark)
+    this.setData({
+      isDarkTheme: isDark
+    })
+    this.setNavigationBarStyle(isDark)
+  },
+
+  // 设置导航栏样式
+  setNavigationBarStyle(isDark) {
+    wx.setNavigationBarColor({
+      frontColor: isDark ? '#ffffff' : '#000000',
+      backgroundColor: isDark ? '#1a1a1a' : '#ffffff'
+    })
   },
 
   // 加载用户统计数据
@@ -92,19 +116,15 @@ Page({
 
   // 跳转到模板库
   goToTemplates() {
-    wx.showToast({
-      title: '功能开发中',
-      icon: 'none'
+    wx.navigateTo({
+      url: '/pages/templates/index'
     })
   },
 
   // 跳转到设置
   goToSettings() {
-    wx.showModal({
-      title: '设置',
-      content: '个性化设置功能正在开发中，敬请期待！',
-      showCancel: false,
-      confirmText: '知道了'
+    wx.navigateTo({
+      url: '/pages/settings/index'
     })
   },
 
@@ -132,7 +152,7 @@ Page({
   goToAbout() {
     wx.showModal({
       title: '关于装修计算器',
-      content: '版本：1.0.3\n\n专业的装修材料用量计算工具，帮您精准计算，省心装修。',
+      content: '版本：1.1.0\n\n专业的装修材料用量计算工具，帮您精准计算，省心装修。',
       showCancel: false,
       confirmText: '知道了'
     })
@@ -143,7 +163,7 @@ Page({
     return {
       title: '装修计算器 - 精准计算，省心装修',
       path: '/pages/materials/index',
-      imageUrl: '/images/share.jpg'
+      imageUrl: '/images/share-cover.jpg'
     }
   },
 
@@ -151,7 +171,7 @@ Page({
     return {
       title: '装修计算器 - 精准计算，省心装修',
       query: 'from=timeline',
-      imageUrl: '/images/share.jpg'
+      imageUrl: '/images/share-cover.jpg'
     }
   }
 })

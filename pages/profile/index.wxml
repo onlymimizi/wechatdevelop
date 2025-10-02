@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container {{isDarkTheme ? 'dark' : ''}}">
   <!-- 用户信息卡片 -->
   <view class="user-card">
     <view class="user-avatar">
@@ -106,7 +106,7 @@
         </view>
         <view class="menu-content">
           <view class="menu-name">关于我们</view>
-          <view class="menu-desc">版本信息和团队介绍</view>
+          <view class="menu-desc">版本信息</view>
         </view>
         <view class="menu-arrow">
           <text class="arrow-icon">></text>

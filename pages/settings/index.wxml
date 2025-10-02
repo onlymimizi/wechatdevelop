@@ -1,0 +1,323 @@
+<view class="container {{isDarkTheme ? 'dark' : ''}}">
+  <!-- 顶部导航 -->
+  <view class="nav-header">
+    <view class="nav-back" bindtap="goBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <view class="nav-title">设置</view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <!-- 设置内容 -->
+  <view class="settings-content">
+    
+    <!-- 外观设置 -->
+    <view class="setting-section">
+      <view class="section-title">
+        <text class="section-icon">🎨</text>
+        <text class="section-name">外观设置</text>
+      </view>
+      
+      <!-- 主题设置 -->
+      <view class="setting-item">
+        <view class="item-header">
+          <text class="item-title">主题模式</text>
+          <text class="item-desc">选择您喜欢的界面风格</text>
+        </view>
+        <view class="theme-options">
+          <view 
+            wx:for="{{themeOptions}}" 
+            wx:key="key"
+            class="theme-option {{theme === item.key ? 'active' : ''}}"
+            data-theme="{{item.key}}"
+            bindtap="onThemeChange"
+          >
+            <text class="theme-icon">{{item.icon}}</text>
+            <text class="theme-name">{{item.name}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 计算设置 -->
+    <view class="setting-section">
+      <view class="section-title">
+        <text class="section-icon">📐</text>
+        <text class="section-name">计算设置</text>
+      </view>
+      
+      <!-- 默认单位 -->
+      <view class="setting-item">
+        <view class="item-header">
+          <text class="item-title">默认单位</text>
+          <text class="item-desc">新建计算时的默认面积单位</text>
+        </view>
+        <view class="unit-options">
+          <view 
+            wx:for="{{unitOptions}}" 
+            wx:key="key"
+            class="unit-option {{defaultUnit === item.key ? 'active' : ''}}"
+            data-unit="{{item.key}}"
+            bindtap="onUnitChange"
+          >
+            <view class="unit-main">
+              <text class="unit-name">{{item.name}}</text>
+              <text class="unit-desc">{{item.desc}}</text>
+            </view>
+            <view class="unit-check">
+              <text class="check-icon" wx:if="{{defaultUnit === item.key}}">✓</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 默认损耗率 -->
+      <view class="setting-item">
+        <view class="item-header">
+          <text class="item-title">默认损耗率</text>
+          <text class="item-desc">{{defaultWasteRate}}% - 新建计算时的默认损耗率</text>
+        </view>
+        <view class="slider-container">
+          <text class="slider-label">{{wasteRateRange[0]}}%</text>
+          <slider 
+            class="waste-rate-slider"
+            min="{{wasteRateRange[0]}}"
+            max="{{wasteRateRange[1]}}"
+            value="{{defaultWasteRate}}"
+            step="1"
+            show-value
+            bindchange="onWasteRateChange"
+          />
+          <text class="slider-label">{{wasteRateRange[1]}}%</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 通知设置 -->
+    <view class="setting-section">
+      <view class="section-title">
+        <text class="section-icon">🔔</text>
+        <text class="section-name">通知设置</text>
+      </view>
+      
+      <view class="setting-item">
+        <view class="item-content">
+          <text class="item-title">计算完成通知</text>
+          <text class="item-desc">计算完成后显示提示</text>
+        </view>
+        <switch 
+          class="setting-switch"
+          checked="{{notifications.calculation}}"
+          data-type="calculation"
+          bindchange="onNotificationToggle"
+        />
+      </view>
+      
+      <view class="setting-item">
+        <view class="item-content">
+          <text class="item-title">定期提醒</text>
+          <text class="item-desc">提醒您使用计算器</text>
+        </view>
+        <switch 
+          class="setting-switch"
+          checked="{{notifications.reminder}}"
+          data-type="reminder"
+          bindchange="onNotificationToggle"
+        />
+      </view>
+      
+      <view class="setting-item">
+        <view class="item-content">
+          <text class="item-title">更新通知</text>
+          <text class="item-desc">新版本发布时通知</text>
+        </view>
+        <switch 
+          class="setting-switch"
+          checked="{{notifications.update}}"
+          data-type="update"
+          bindchange="onNotificationToggle"
+        />
+      </view>
+    </view>
+
+    <!-- 数据设置 -->
+    <view class="setting-section">
+      <view class="section-title">
+        <text class="section-icon">💾</text>
+        <text class="section-name">数据设置</text>
+      </view>
+      
+      <view class="setting-item">
+        <view class="item-content">
+          <text class="item-title">自动保存</text>
+          <text class="item-desc">计算完成后自动保存记录</text>
+        </view>
+        <switch 
+          class="setting-switch"
+          checked="{{autoSave}}"
+          data-field="autoSave"
+          bindchange="onSwitchToggle"
+        />
+      </view>
+      
+      <view class="setting-item">
+        <view class="item-content">
+          <text class="item-title">云端同步</text>
+          <text class="item-desc">将数据同步到云端</text>
+        </view>
+        <switch 
+          class="setting-switch"
+          checked="{{cloudSync}}"
+          data-field="cloudSync"
+          bindchange="onSwitchToggle"
+        />
+      </view>
+      
+      <!-- 最大记录数 -->
+      <view class="setting-item">
+        <view class="item-header">
+          <text class="item-title">最大记录数</text>
+          <text class="item-desc">{{maxRecords}}条 - 超出后自动删除旧记录</text>
+        </view>
+        <view class="slider-container">
+          <text class="slider-label">20</text>
+          <slider 
+            class="max-records-slider"
+            min="20"
+            max="100"
+            value="{{maxRecords}}"
+            step="10"
+            show-value
+            bindchange="onMaxRecordsChange"
+          />
+          <text class="slider-label">100</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 隐私设置 -->
+    <view class="setting-section">
+      <view class="section-title">
+        <text class="section-icon">🔒</text>
+        <text class="section-name">隐私设置</text>
+      </view>
+      
+      <view class="setting-item">
+        <view class="item-content">
+          <text class="item-title">数据分析</text>
+          <text class="item-desc">帮助改进产品体验</text>
+        </view>
+        <switch 
+          class="setting-switch"
+          checked="{{analytics}}"
+          data-field="analytics"
+          bindchange="onSwitchToggle"
+        />
+      </view>
+      
+      <view class="setting-item">
+        <view class="item-content">
+          <text class="item-title">崩溃报告</text>
+          <text class="item-desc">自动发送崩溃日志</text>
+        </view>
+        <switch 
+          class="setting-switch"
+          checked="{{crashReport}}"
+          data-field="crashReport"
+          bindchange="onSwitchToggle"
+        />
+      </view>
+    </view>
+
+    <!-- 显示设置 -->
+    <view class="setting-section">
+      <view class="section-title">
+        <text class="section-icon">👁️</text>
+        <text class="section-name">显示设置</text>
+      </view>
+      
+      <view class="setting-item">
+        <view class="item-content">
+          <text class="item-title">显示提示</text>
+          <text class="item-desc">显示操作提示和说明</text>
+        </view>
+        <switch 
+          class="setting-switch"
+          checked="{{showTips}}"
+          data-field="showTips"
+          bindchange="onSwitchToggle"
+        />
+      </view>
+      
+      <view class="setting-item">
+        <view class="item-content">
+          <text class="item-title">显示动画</text>
+          <text class="item-desc">页面切换和交互动画</text>
+        </view>
+        <switch 
+          class="setting-switch"
+          checked="{{showAnimation}}"
+          data-field="showAnimation"
+          bindchange="onSwitchToggle"
+        />
+      </view>
+    </view>
+
+    <!-- 存储管理 -->
+    <view class="setting-section">
+      <view class="section-title">
+        <text class="section-icon">🗂️</text>
+        <text class="section-name">存储管理</text>
+      </view>
+      
+      <view class="storage-info">
+        <view class="storage-item">
+          <text class="storage-label">缓存大小</text>
+          <text class="storage-value">{{cacheSize}}</text>
+        </view>
+        <view class="storage-item">
+          <text class="storage-label">计算记录</text>
+          <text class="storage-value">{{recordCount}}条</text>
+        </view>
+      </view>
+      
+      <view class="action-buttons">
+        <button class="action-btn secondary" bindtap="exportData">
+          <text class="btn-icon">📤</text>
+          <text>导出数据</text>
+        </button>
+        
+        <button class="action-btn primary" bindtap="syncToCloud" wx:if="{{cloudSync}}">
+          <text class="btn-icon">☁️</text>
+          <text>同步到云端</text>
+        </button>
+        
+        <button class="action-btn primary" bindtap="restoreFromCloud" wx:if="{{cloudSync}}">
+          <text class="btn-icon">⬇️</text>
+          <text>从云端恢复</text>
+        </button>
+        
+        <button class="action-btn danger" bindtap="clearCache">
+          <text class="btn-icon">🗑️</text>
+          <text>清除缓存</text>
+        </button>
+      </view>
+    </view>
+
+    <!-- 其他操作 -->
+    <view class="setting-section">
+      <view class="section-title">
+        <text class="section-icon">⚙️</text>
+        <text class="section-name">其他操作</text>
+      </view>
+      
+      <view class="action-buttons">
+        <button class="action-btn warning" bindtap="resetSettings">
+          <text class="btn-icon">🔄</text>
+          <text>重置设置</text>
+        </button>
+      </view>
+    </view>
+
+  </view>
+</view>

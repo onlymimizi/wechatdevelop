@@ -5,7 +5,8 @@ Page({
     loadingMore: false,
     hasMore: true,
     pageSize: 10,
-    currentPage: 0
+    currentPage: 0,
+    isDarkTheme: false
   },
 
   onLoad() {
@@ -18,12 +19,33 @@ Page({
     // 刷新数据
     this.refreshRecords()
     
+    // 检查主题
+    this.checkTheme()
+    
     // 更新 tabBar 选中状态
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
         selected: 2
       })
     }
+  },
+
+  // 检查并应用主题
+  checkTheme() {
+    const app = getApp()
+    const isDark = app.globalData.isDarkMode
+    this.setData({
+      isDarkTheme: isDark
+    })
+    this.setNavigationBarStyle(isDark)
+  },
+
+  // 设置导航栏样式
+  setNavigationBarStyle(isDark) {
+    wx.setNavigationBarColor({
+      frontColor: isDark ? '#ffffff' : '#000000',
+      backgroundColor: isDark ? '#1a1a1a' : '#ffffff'
+    })
   },
 
   // 加载记录
@@ -372,5 +394,37 @@ Page({
     }).catch(err => {
       console.log('埋点失败', err)
     })
+  },
+
+  // 自定义分享
+  onShareAppMessage(e) {
+    console.log('分享方法被调用', e);
+    
+    let title = '装修材料计算器 - 计算历史';
+    let path = '/pages/history/index';
+    let imageUrl = '/images/share-cover.jpg';
+
+    if (e && e.from === 'button' && e.target && e.target.dataset && e.target.dataset.record) {
+      const r = e.target.dataset.record;
+      const unit = r.unit || '';
+      const resultUnit = r.resultUnit || '';
+      title = `【${r.material}】面积${r.area}${unit}，建议用量${r.result}${resultUnit}`;
+      path = '/pages/history/index';
+    }
+
+    return {
+      title: title,
+      path: path,
+      imageUrl: imageUrl
+    };
+  },
+
+  // 分享到朋友圈
+  onShareTimeline() {
+    return {
+      title: '装修计算器 - 计算历史记录',
+      query: 'from=timeline',
+      imageUrl: '/images/share-cover.jpg'
+    }
   }
 })

@@ -9,12 +9,76 @@
 .container {
   min-height: 100vh;
   background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%);
-  padding-bottom: 40rpx;
+  padding: 0;
+  margin: 0;
+  transition: all 0.3s ease;
+}
+
+/* 深色主题 */
+.container.dark {
+  background: linear-gradient(180deg, #1a1a1a 0%, #2c2c2c 100%);
+}
+
+.container.dark .user-card {
+  background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+  box-shadow: 0 8rpx 32rpx rgba(0, 102, 204, 0.3);
+}
+
+.container.dark .group-title {
+  color: #ffffff;
+}
+
+.container.dark .menu-item {
+  background: #333333;
+  border-color: #444444;
+}
+
+.container.dark .menu-name {
+  color: #ffffff;
+}
+
+.container.dark .menu-desc {
+  color: #999999;
+}
+
+.container.dark .menu-icon {
+  background: #444444;
+}
+
+.container.dark .stat-card {
+  background: #333333;
+  border-color: #444444;
+}
+
+.container.dark .stat-number {
+  color: #66b3ff;
+}
+
+.container.dark .stat-label {
+  color: #999999;
+}
+
+.container.dark .action-btn.secondary {
+  background: #444444;
+  color: #ffffff;
+}
+
+.container.dark .disclaimer-card {
+  background: #2c2c2c;
+  border-color: #444444;
+}
+
+.container.dark .disclaimer-title {
+  color: #ffcc00;
+}
+
+.container.dark .disclaimer-text {
+  color: #cccccc;
 }
 
 /* 用户信息卡片 */
 .user-card {
-  margin: 40rpx;
+  margin: 0 40rpx 40rpx 40rpx;
   background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
   border-radius: 24rpx;
   padding: 40rpx;

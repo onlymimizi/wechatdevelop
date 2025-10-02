@@ -1,3 +1,26 @@
+/* 模板提示 */
+.template-tip {
+  margin: 20rpx 40rpx 0;
+  background: linear-gradient(135deg, #E3F2FD 0%, #F3E5F5 100%);
+  border: 2rpx solid #2196F3;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  display: flex;
+  align-items: center;
+}
+
+.tip-icon {
+  font-size: 32rpx;
+  margin-right: 16rpx;
+}
+
+.tip-text {
+  font-size: 26rpx;
+  color: #1565C0;
+  font-weight: 500;
+  flex: 1;
+}
+
 .container {
   min-height: 100vh;
   padding-bottom: 200rpx;
@@ -146,13 +169,14 @@
   width: 100%;
   background: #FFFFFF;
   border-radius: 16rpx;
-  padding: 20rpx 60rpx 20rpx 24rpx;
+  padding: 20rpx 40rpx 20rpx 24rpx;
   font-size: 32rpx;
   font-weight: 600;
   color: #1C1C1E;
   border: 2rpx solid transparent;
   text-align: center;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .dimension-field:focus {
@@ -162,9 +186,9 @@
 
 .dimension-unit {
   position: absolute;
-  right: 24rpx;
+  right: 16rpx;
   bottom: 22rpx;
-  font-size: 26rpx;
+  font-size: 24rpx;
   color: #8E8E93;
   font-weight: 500;
 }
@@ -411,4 +435,292 @@
   font-size: 24rpx;
   color: #8B6914;
   line-height: 1.5;
+}
+
+/* 缺失的样式类 */
+.card {
+  background: #FFFFFF;
+  border-radius: 24rpx;
+  margin: 24rpx 32rpx;
+  padding: 32rpx;
+  border: 2rpx solid #F2F2F7;
+}
+
+.card-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1D1D1F;
+  margin-bottom: 24rpx;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mb-16 {
+  margin-bottom: 16rpx;
+}
+
+.input-group {
+  margin-bottom: 24rpx;
+}
+
+.input-label {
+  font-size: 28rpx;
+  color: #8E8E93;
+  margin-bottom: 12rpx;
+  font-weight: 500;
+}
+
+.input-field {
+  width: 100%;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 20rpx 60rpx 20rpx 24rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1C1C1E;
+  border: 2rpx solid transparent;
+  transition: all 0.2s ease;
+}
+
+.input-field:focus {
+  border-color: #007AFF;
+  box-shadow: 0 0 0 6rpx rgba(0, 122, 255, 0.1);
+}
+
+.divider {
+  height: 2rpx;
+  background: rgba(255, 255, 255, 0.3);
+  margin: 16rpx 0;
+}
+
+.btn-primary {
+  width: 100%;
+  background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+  color: #FFFFFF;
+  border-radius: 24rpx;
+  padding: 32rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16rpx;
+  box-shadow: 0 8rpx 32rpx rgba(0, 122, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+.haptic-light,
+.haptic-medium {
+  /* 触觉反馈样式占位 */
+}
+
+.page-enter {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.ios-icon {
+  font-size: 20rpx;
+  line-height: 1;
+  display: inline-block;
+}
+
+/* 深色主题样式 */
+.container.dark {
+  background: #000000;
+  color: #FFFFFF;
+}
+
+.template-tip.dark {
+  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+  border-color: #007AFF;
+}
+
+.template-tip.dark .tip-text {
+  color: #64B5F6;
+}
+
+.material-header.dark {
+  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+}
+
+.card.dark {
+  background: #1C1C1E;
+  border-color: #2C2C2E;
+}
+
+.card.dark .card-title {
+  color: #FFFFFF;
+}
+
+.room-card.dark {
+  background: #2C2C2E;
+}
+
+.room-name-input.dark {
+  background: #1C1C1E;
+  color: #FFFFFF;
+  border-color: #3A3A3C;
+}
+
+.room-name-input.dark:focus {
+  border-color: #007AFF;
+  background: #2C2C2E;
+}
+
+.dimension-field.dark {
+  background: #1C1C1E;
+  color: #FFFFFF;
+  border-color: #3A3A3C;
+}
+
+.dimension-field.dark:focus {
+  border-color: #007AFF;
+  background: #2C2C2E;
+}
+
+.input-field.dark {
+  background: #1C1C1E;
+  color: #FFFFFF;
+  border-color: #3A3A3C;
+}
+
+.input-field.dark:focus {
+  border-color: #007AFF;
+  background: #2C2C2E;
+}
+
+.add-room-btn.dark {
+  background: #2C2C2E;
+  color: #007AFF;
+}
+
+.add-room-btn.dark:active {
+  background: #3A3A3C;
+}
+
+.delete-room-btn.dark {
+  background: #FF453A;
+}
+
+.unit-option.dark {
+  color: #FFFFFF;
+}
+
+.unit-option.dark.active {
+  background: #007AFF;
+  color: #FFFFFF;
+}
+
+.summary-card.dark {
+  background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%);
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.5);
+}
+
+.disclaimer.dark {
+  background: #2C2C2E;
+  border-color: #FFD60A;
+}
+
+.disclaimer.dark .disclaimer-text {
+  color: #FFD60A;
+}
+
+.ios-picker.dark {
+  background: #1C1C1E;
+  border-color: #3A3A3C;
+}
+
+.ios-picker.dark:active {
+  background: #2C2C2E;
+}
+
+.ios-picker.dark .picker-text {
+  color: #FFFFFF;
+}
+
+.btn-primary.dark {
+  background: linear-gradient(135deg, #007AFF 0%, #0056CC 100%);
+}
+
+.btn-primary.dark.disabled {
+  background: #2C2C2E;
+  color: #8E8E93;
+}
+
+/* 深色主题下的面积结果 */
+.room-card.dark .area-result {
+  background: #1C1C1E;
+}
+
+.room-card.dark .area-label {
+  color: #8E8E93;
+}
+
+.room-card.dark .area-value {
+  color: #64B5F6;
+}
+
+/* 深色主题下的高级选项 */
+.room-card.dark .advanced-section {
+  border-top-color: #3A3A3C;
+}
+
+.room-card.dark .advanced-title {
+  color: #8E8E93;
+}
+
+.room-card.dark .dimension-label {
+  color: #8E8E93;
+}
+
+.room-card.dark .dimension-unit {
+  color: #8E8E93;
+}
+
+.room-card.dark .input-label {
+  color: #8E8E93;
+}
+
+.room-card.dark .input-unit {
+  color: #8E8E93;
+}
+
+/* 深色主题下的单位选择器 */
+.card.dark .unit-selector {
+  background: #2C2C2E;
+}
+
+/* 深色主题下的操作区域 */
+.container.dark .action-section {
+  background: linear-gradient(to top, #000000 0%, #000000 80%, rgba(0, 0, 0, 0.9) 100%);
+}
+
+/* 深色主题下的面积结果区域 */
+.room-card.dark .area-result {
+  background: #1C1C1E;
+  border: 1rpx solid #3A3A3C;
 }

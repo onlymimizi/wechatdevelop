@@ -1,4 +1,4 @@
-<view class="container">
+<view class="container {{isDark ? 'dark' : ''}}">
   <!-- 顶部导航栏 -->
   <view class="nav-header">
     <view class="nav-title">计算结果</view>

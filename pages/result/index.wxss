@@ -371,3 +371,159 @@
   color: #8B6914;
   line-height: 1.5;
 }
+
+/* 深色主题样式 */
+.container.dark {
+  background: linear-gradient(180deg, #121212 0%, #1e1e1e 100%);
+  color: #ffffff;
+}
+
+.container.dark .nav-header {
+  background: #1e1e1e;
+  box-shadow: 0 4rpx 20rpx rgba(255, 255, 255, 0.05);
+}
+
+.container.dark .nav-title {
+  color: #ffffff;
+}
+
+.container.dark .nav-subtitle {
+  color: #cccccc;
+}
+
+.container.dark .result-card {
+  background: #2c2c2c;
+  box-shadow: 0 8rpx 32rpx rgba(255, 255, 255, 0.08);
+}
+
+.container.dark .result-title {
+  color: #ffffff;
+}
+
+.container.dark .result-status.success {
+  background: #34C759;
+  color: #ffffff;
+}
+
+.container.dark .info-item {
+  border-bottom-color: #444444;
+}
+
+.container.dark .info-label {
+  color: #cccccc;
+}
+
+.container.dark .info-value {
+  color: #ffffff;
+}
+
+.container.dark .result-item {
+  background: #333333;
+}
+
+.container.dark .result-item.primary {
+  background: linear-gradient(135deg, #007AFF20 0%, #007AFF30 100%);
+  border-color: #007AFF40;
+}
+
+.container.dark .result-item.highlight {
+  background: linear-gradient(135deg, #34C75920 0%, #34C75930 100%);
+  border-color: #34C75940;
+}
+
+.container.dark .result-label {
+  color: #cccccc;
+}
+
+.container.dark .result-number {
+  color: #ffffff;
+}
+
+.container.dark .result-item.primary .result-number {
+  color: #007AFF;
+}
+
+.container.dark .result-item.highlight .result-number {
+  color: #34C759;
+}
+
+.container.dark .result-unit {
+  color: #cccccc;
+}
+
+.container.dark .cost-section {
+  border-top-color: #444444;
+}
+
+.container.dark .section-title {
+  color: #ffffff;
+}
+
+.container.dark .cost-label {
+  color: #cccccc;
+}
+
+.container.dark .cost-value {
+  color: #ffffff;
+}
+
+.container.dark .cost-value.total {
+  color: #FF453A;
+}
+
+.container.dark .feature-card {
+  background: #2c2c2c;
+  border-color: #444444;
+}
+
+.container.dark .feature-card:active {
+  background: #333333;
+}
+
+.container.dark .feature-name {
+  color: #ffffff;
+}
+
+.container.dark .feature-desc {
+  color: #cccccc;
+}
+
+.container.dark .secondary-button {
+  background: #333333;
+  color: #ffffff;
+}
+
+.container.dark .secondary-button:active {
+  background: #444444;
+}
+
+.container.dark .recalc-button {
+  color: #007AFF;
+  border-color: #007AFF;
+}
+
+.container.dark .recalc-button:active {
+  background: #007AFF20;
+}
+
+.container.dark .recalc-button {
+  color: #007AFF;
+  border-color: #007AFF;
+}
+
+.container.dark .recalc-button:active {
+  background: #007AFF20;
+}
+
+.container.dark .disclaimer {
+  background: #2c2c2c;
+  border-color: #FFD60A;
+}
+
+.container.dark .disclaimer-title {
+  color: #FF9500;
+}
+
+.container.dark .disclaimer-text {
+  color: #cccccc;
+}

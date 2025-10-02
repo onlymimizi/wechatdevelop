@@ -4,7 +4,8 @@ Page({
   data: {
     calculateData: {},
     result: {},
-    interstitialAd: null
+    interstitialAd: null,
+    isDark: false
   },
 
   onLoad(options) {
@@ -28,6 +29,9 @@ Page({
 
     // 埋点：页面访问
     this.trackEvent('page_view', { page: 'result' })
+
+    // 应用主题
+    this.applyTheme()
   },
 
   onShow() {
@@ -43,6 +47,25 @@ Page({
         selected: 1
       })
     }
+
+    // 应用主题
+    this.applyTheme()
+  },
+
+  // 应用主题
+  applyTheme() {
+    const app = getApp()
+    const isDark = app.globalData.isDarkMode
+    this.setData({ isDark })
+    this.setNavigationBarStyle(isDark)
+  },
+
+  // 设置导航栏样式
+  setNavigationBarStyle(isDark) {
+    wx.setNavigationBarColor({
+      frontColor: isDark ? '#ffffff' : '#000000',
+      backgroundColor: isDark ? '#1a1a1a' : '#ffffff'
+    })
   },
 
   // 检查并更新数据
@@ -74,18 +97,6 @@ Page({
 
   onHide() {
     // 页面隐藏时的处理
-  },
-
-  onShow() {
-    // 显示插屏广告 - 暂时注释，等申请广告位后启用
-    // this.showInterstitialAd()
-    
-    // 更新 tabBar 选中状态
-    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-      this.getTabBar().setData({
-        selected: 1
-      })
-    }
   },
 
   // 初始化插屏广告 - 暂时注释，等申请广告位后启用
@@ -518,5 +529,46 @@ ${result.packages ? `包装数量：${result.packages}包/箱` : ''}
     }).catch(err => {
       console.log('埋点失败', err)
     })
+  },
+
+  // 自定义分享
+  onShareAppMessage(e) {
+    console.log('分享方法被调用', e);
+    
+    let title = '装修材料计算器 - 计算结果';
+    let path = '/pages/materials/index';
+    
+    // 如果有计算结果，显示具体信息
+    if (this.data.result && this.data.result.totalAmount) {
+      const material = this.data.calculateData.material || '材料';
+      const area = this.data.calculateData.actualArea || '';
+      const amount = this.data.result.totalAmount || '';
+      const unit = this.data.result.unit || '';
+      title = `【${material}】面积${area}㎡，建议用量${amount}${unit}`;
+    }
+    
+    return {
+      title: title,
+      path: path,
+      imageUrl: '/images/share-cover.jpg'
+    };
+  },
+
+  // 分享到朋友圈
+  onShareTimeline() {
+    let title = '装修材料计算器 - 精准计算结果';
+    
+    if (this.data.result && this.data.result.totalAmount) {
+      const material = this.data.calculateData.material || '材料';
+      const amount = this.data.result.totalAmount || '';
+      const unit = this.data.result.unit || '';
+      title = `【${material}】计算结果：${amount}${unit}`;
+    }
+    
+    return {
+      title: title,
+      query: 'from=timeline',
+      imageUrl: '/images/share-cover.jpg'
+    }
   }
 })

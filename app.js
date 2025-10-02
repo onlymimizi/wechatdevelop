@@ -1,6 +1,9 @@
 // iOS 风格装修材料计算器
 App({
   globalData: {
+    // 主题设置
+    isDarkMode: false,
+    
     // 材料配置
     materialConfig: {
       '瓷砖': {
@@ -26,6 +29,14 @@ App({
         packageSize: 20,    // 每袋重量
         standardSize: 1,    // 每公斤覆盖面积
         description: '墙面找平用量计算'
+      },
+      '腻子粉': {
+        defaultWaste: 0.15, // 15% 损耗率（老房翻新损耗更大）
+        coefficient: 1.5,   // 1㎡需要1.5kg腻子粉（老房需要更厚）
+        unit: 'kg',
+        packageSize: 20,    // 每袋重量
+        standardSize: 1,    // 每公斤覆盖面积
+        description: '老房翻新墙面处理用量计算'
       }
     },
     
@@ -48,6 +59,9 @@ App({
       })
     }
 
+    // 初始化主题设置
+    this.initTheme()
+
     // 检查更新
     this.checkForUpdate()
     
@@ -57,7 +71,7 @@ App({
     // 埋点：应用启动
     this.trackEvent('app_launch', {
       timestamp: Date.now(),
-      version: '2.0.0'
+      version: '1.1.0'
     })
   },
 
@@ -102,6 +116,52 @@ App({
         console.log('新版本下载失败')
       })
     }
+  },
+
+  // 初始化主题设置
+  initTheme() {
+    try {
+      const settings = wx.getStorageSync('app_settings') || {}
+      const theme = settings.theme || 'light'
+      
+      let isDark = false
+      if (theme === 'dark') {
+        isDark = true
+      } else if (theme === 'auto') {
+        // 跟随系统
+        const systemInfo = wx.getSystemInfoSync()
+        isDark = systemInfo.theme === 'dark'
+      }
+      
+      this.globalData.isDarkMode = isDark
+      
+      // 设置全局主题
+      this.applyGlobalTheme(isDark)
+      
+    } catch (error) {
+      console.log('初始化主题失败', error)
+    }
+  },
+
+  // 应用全局主题
+  applyGlobalTheme(isDark) {
+    // 设置导航栏颜色
+    wx.setNavigationBarColor({
+      frontColor: isDark ? '#ffffff' : '#000000',
+      backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
+      animation: {
+        duration: 300,
+        timingFunc: 'easeInOut'
+      }
+    })
+    
+    // 设置tabBar样式
+    wx.setTabBarStyle({
+      color: isDark ? '#999999' : '#666666',
+      selectedColor: isDark ? '#007aff' : '#007aff',
+      backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
+      borderStyle: isDark ? 'white' : 'black'
+    })
   },
 
   // 获取用户信息

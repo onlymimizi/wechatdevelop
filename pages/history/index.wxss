@@ -10,6 +10,92 @@
   min-height: 100vh;
   background: linear-gradient(180deg, #F8F9FA 0%, #FFFFFF 100%);
   padding-bottom: 40rpx;
+  transition: all 0.3s ease;
+}
+
+/* 深色主题 */
+.container.dark {
+  background: linear-gradient(180deg, #121212 0%, #1e1e1e 100%);
+  color: #ffffff;
+}
+
+.container.dark .nav-header {
+  background: #1e1e1e;
+}
+
+.container.dark .nav-title {
+  color: #ffffff;
+}
+
+.container.dark .nav-subtitle {
+  color: #cccccc;
+}
+
+.container.dark .record-card {
+  background: #2c2c2c;
+  border-color: #444444;
+}
+
+.container.dark .card-header {
+  background: #333333;
+  border-bottom-color: #444444;
+}
+
+.container.dark .record-time {
+  color: #999999;
+}
+
+.container.dark .detail-item {
+  background: #333333;
+}
+
+.container.dark .detail-label {
+  color: #999999;
+}
+
+.container.dark .detail-value {
+  color: #ffffff;
+}
+
+.container.dark .card-footer {
+  background: #333333;
+  border-top-color: #444444;
+}
+
+.container.dark .action-button {
+  border-right-color: #444444;
+}
+
+.container.dark .action-button:active {
+  background: #444444;
+}
+
+.container.dark .empty-title {
+  color: #ffffff;
+}
+
+.container.dark .empty-subtitle {
+  color: #cccccc;
+}
+
+.container.dark .loading-text {
+  color: #cccccc;
+}
+
+.container.dark .load-more-button {
+  background: #333333;
+  border-color: #444444;
+  color: #007aff;
+}
+
+.container.dark .load-more-button:active {
+  background: #444444;
+}
+
+.container.dark .load-more-button:disabled {
+  background: #2c2c2c;
+  color: #666666;
+  border-color: #444444;
 }
 
 /* 顶部导航栏 */

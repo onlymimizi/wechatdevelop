@@ -1,0 +1,106 @@
+<view class="container {{isDarkTheme ? 'dark' : ''}}">
+  <!-- 顶部导航 -->
+  <view class="nav-header">
+    <view class="nav-left" bindtap="goBack">
+      <text class="nav-icon">‹</text>
+    </view>
+    <view class="nav-title">模板库</view>
+    <view class="nav-right"></view>
+  </view>
+
+  <!-- 分类筛选 -->
+  <view class="category-filter">
+    <scroll-view class="category-scroll" scroll-x="true" show-scrollbar="false">
+      <view class="category-list">
+        <view 
+          wx:for="{{categories}}" 
+          wx:key="key"
+          class="category-item {{selectedCategory === item.key ? 'active' : ''}}"
+          data-category="{{item.key}}"
+          bindtap="selectCategory"
+        >
+          <text class="category-icon">{{item.icon}}</text>
+          <text class="category-name">{{item.name}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 模板列表 -->
+  <view class="template-list">
+    <view 
+      wx:for="{{templates}}" 
+      wx:key="id"
+      wx:if="{{selectedCategory === 'all' || item.category === selectedCategory}}"
+      class="template-card"
+      data-template="{{item}}"
+      bindtap="useTemplate"
+    >
+      <!-- 热门标签 -->
+      <view wx:if="{{item.popular}}" class="popular-badge">
+        <text class="badge-text">热门</text>
+      </view>
+      
+      <!-- 模板内容 -->
+      <view class="template-header">
+        <view class="template-icon">
+          <text class="icon-text">{{item.icon}}</text>
+        </view>
+        <view class="template-info">
+          <view class="template-name">{{item.name}}</view>
+          <view class="template-category">{{item.category}}</view>
+        </view>
+        <view class="template-action" data-template="{{item}}" bindtap="viewTemplate" catchtap="viewTemplate">
+          <text class="action-icon">i</text>
+        </view>
+      </view>
+      
+      <view class="template-desc">{{item.description}}</view>
+      
+      <view class="template-params">
+        <view class="param-item">
+          <text class="param-label">预算</text>
+          <text class="param-value">{{item.costRange}}</text>
+        </view>
+        <view class="param-item">
+          <text class="param-label">面积</text>
+          <text class="param-value">{{item.estimatedArea}}</text>
+        </view>
+        <view class="param-item">
+          <text class="param-label">难度</text>
+          <text class="param-value difficulty-{{item.difficultyLevel}}">{{item.difficulty}}</text>
+        </view>
+      </view>
+      
+      <view class="template-details">
+        <view class="detail-item">
+          <text class="detail-label">损耗率：</text>
+          <text class="detail-value">{{item.wasteRate}}%</text>
+        </view>
+        <view class="detail-item">
+          <text class="detail-label">铺贴方式：</text>
+          <text class="detail-value">{{item.layout}}</text>
+        </view>
+      </view>
+      
+      <view class="template-tips">
+        <text class="tips-icon">💡</text>
+        <text class="tips-text">{{item.tips}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view wx:if="{{filteredTemplates.length === 0}}" class="empty-state">
+    <text class="empty-icon">📄</text>
+    <text class="empty-text">暂无该分类的模板</text>
+  </view>
+
+  <!-- 底部说明 -->
+  <view class="bottom-tips">
+    <view class="tips-card">
+      <text class="tips-icon">💡</text>
+      <text class="tips-text">选择模板后，系统会自动填入推荐的损耗率和铺贴方式，您只需输入房间面积即可快速计算。</text>
+    </view>
+  </view>
+</view>

@@ -1,32 +1,38 @@
-<view class="container page-enter">
+<view class="container page-enter {{isDarkTheme ? 'dark' : ''}}">
+  <!-- 模板提示 -->
+  <view wx:if="{{fromTemplate}}" class="template-tip {{isDarkTheme ? 'dark' : ''}}">
+    <text class="tip-icon">📄</text>
+    <text class="tip-text">正在使用模板：{{templateName}}</text>
+  </view>
+
   <!-- 材料信息头部 -->
-  <view class="material-header">
+  <view class="material-header {{isDarkTheme ? 'dark' : ''}}">
     <view class="material-badge">{{params.material}}</view>
     <view class="material-info">基础面积 {{params.area}}㎡</view>
   </view>
 
   <!-- 房间列表 -->
-  <view class="card">
+  <view class="card {{isDarkTheme ? 'dark' : ''}}">
     <view class="flex-between mb-16">
       <view class="card-title">房间详情</view>
-      <button class="add-room-btn haptic-light" bindtap="addRoom">
+      <button class="add-room-btn haptic-light {{isDarkTheme ? 'dark' : ''}}" bindtap="addRoom">
         <text class="add-icon">+</text>
         <text>添加房间</text>
       </button>
     </view>
 
     <view class="room-list">
-      <view class="room-card" wx:for="{{rooms}}" wx:key="index">
+      <view class="room-card {{isDarkTheme ? 'dark' : ''}}" wx:for="{{rooms}}" wx:key="index">
         <view class="room-header">
           <input 
-            class="room-name-input" 
+            class="room-name-input {{isDarkTheme ? 'dark' : ''}}" 
             placeholder="房间名称"
             value="{{item.name}}"
             bindinput="onRoomNameInput"
             data-index="{{index}}"
           />
           <button 
-            class="delete-room-btn haptic-light" 
+            class="delete-room-btn haptic-light {{isDarkTheme ? 'dark' : ''}}" 
             bindtap="deleteRoom" 
             data-index="{{index}}"
             wx:if="{{rooms.length > 1}}"
@@ -40,7 +46,7 @@
             <view class="dimension-input">
               <view class="dimension-label">长度</view>
               <input 
-                class="dimension-field" 
+                class="dimension-field {{isDarkTheme ? 'dark' : ''}}" 
                 type="digit" 
                 placeholder="0"
                 value="{{item.length}}"
@@ -56,7 +62,7 @@
             <view class="dimension-input">
               <view class="dimension-label">宽度</view>
               <input 
-                class="dimension-field" 
+                class="dimension-field {{isDarkTheme ? 'dark' : ''}}" 
                 type="digit" 
                 placeholder="0"
                 value="{{item.width}}"
@@ -83,7 +89,7 @@
               <view class="input-label">扣除面积 (门窗等)</view>
               <view class="input-wrapper">
                 <input 
-                  class="input-field" 
+                  class="input-field {{isDarkTheme ? 'dark' : ''}}" 
                   type="digit" 
                   placeholder="0"
                   value="{{item.deductArea}}"
@@ -103,7 +109,7 @@
                 range="{{specialCoefficientOptions}}"
                 data-index="{{index}}"
               >
-                <view class="ios-picker">
+                <view class="ios-picker {{isDarkTheme ? 'dark' : ''}}">
                   <text class="picker-text">{{specialCoefficientOptions[item.specialCoefficientIndex || 0]}}</text>
                   <text class="picker-arrow">›</text>
                 </view>
@@ -116,18 +122,18 @@
   </view>
 
   <!-- 单位切换 -->
-  <view class="card">
+  <view class="card {{isDarkTheme ? 'dark' : ''}}">
     <view class="card-title">单位设置</view>
     <view class="unit-selector">
       <button 
-        class="unit-option {{unit === '㎡' ? 'active' : ''}}"
+        class="unit-option {{unit === '㎡' ? 'active' : ''}} {{isDarkTheme ? 'dark' : ''}}"
         bindtap="switchUnit"
         data-unit="㎡"
       >
         平方米 (㎡)
       </button>
       <button 
-        class="unit-option {{unit === '坪' ? 'active' : ''}}"
+        class="unit-option {{unit === '坪' ? 'active' : ''}} {{isDarkTheme ? 'dark' : ''}}"
         bindtap="switchUnit"
         data-unit="坪"
       >
@@ -137,7 +143,7 @@
   </view>
 
   <!-- 总计信息 -->
-  <view class="summary-card">
+  <view class="summary-card {{isDarkTheme ? 'dark' : ''}}">
     <view class="summary-header">
       <text class="summary-title">计算汇总</text>
     </view>
@@ -159,7 +165,7 @@
   </view>
 
   <!-- 免责声明 -->
-  <view class="disclaimer">
+  <view class="disclaimer {{isDarkTheme ? 'dark' : ''}}">
     <view class="disclaimer-title">
       <text class="ios-icon">⚠️</text>
       <text>免责声明</text>
@@ -172,7 +178,7 @@
   <!-- 计算按钮 -->
   <view class="action-section safe-area-bottom">
     <button 
-      class="btn-primary haptic-medium {{canCalculate ? '' : 'disabled'}}" 
+      class="btn-primary haptic-medium {{canCalculate ? '' : 'disabled'}} {{isDarkTheme ? 'dark' : ''}}" 
       bindtap="calculate" 
       disabled="{{!canCalculate}}"
     >

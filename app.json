@@ -4,7 +4,9 @@
     "pages/input/house",
     "pages/result/index",
     "pages/history/index",
-    "pages/profile/index"
+    "pages/profile/index",
+    "pages/templates/index",
+    "pages/settings/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -12,13 +12,26 @@ Page({
     actualArea: 0,
     canCalculate: false,
     specialCoefficientOptions: ['标准 (1.0)', '复杂 (1.2)', '超复杂 (1.5)'],
-    specialCoefficientValues: [1.0, 1.2, 1.5]
+    specialCoefficientValues: [1.0, 1.2, 1.5],
+    isDarkTheme: false
   },
 
   onLoad(options) {
     console.log('多房间页面onLoad，接收到的options:', options)
     
-    if (options.params) {
+    // 检查是否有全局数据（来自模板库）
+    const app = getApp()
+    if (app.globalData.pendingCalculateData) {
+      const templateData = app.globalData.pendingCalculateData
+      console.log('从模板库接收到数据:', templateData)
+      this.setData({ 
+        params: templateData,
+        fromTemplate: true,
+        templateName: templateData.templateName || '未知模板'
+      })
+      // 清除全局数据
+      app.globalData.pendingCalculateData = null
+    } else if (options.params) {
       try {
         const params = JSON.parse(decodeURIComponent(options.params))
         console.log('解析后的params:', params)
@@ -34,37 +47,68 @@ Page({
       this.setDefaultParams()
     }
 
+    // 检查主题
+    this.checkTheme()
+
     // 埋点：页面访问
     this.trackEvent('page_view', { page: 'house_input' })
   },
 
+  onShow() {
+    // 检查主题
+    this.checkTheme()
+  },
+
+  // 检查并应用主题
+  checkTheme() {
+    const app = getApp()
+    const isDark = app.globalData.isDarkMode
+    this.setData({
+      isDarkTheme: isDark
+    })
+    this.setNavigationBarStyle(isDark)
+  },
+
+  // 设置导航栏样式
+  setNavigationBarStyle(isDark) {
+    wx.setNavigationBarColor({
+      frontColor: isDark ? '#ffffff' : '#000000',
+      backgroundColor: isDark ? '#1a1a1a' : '#ffffff'
+    })
+  },
+
   // 设置默认参数
   setDefaultParams() {
+    // 检查是否有模板数据
+    const templateData = getApp().globalData.templateData
+    
     const defaultParams = {
-      material: '瓷砖', // 默认材料
+      material: templateData?.material || '瓷砖', // 优先使用模板材料
       area: 0,
-      wasteRate: 5,
-      layout: '正铺',
+      wasteRate: templateData?.wasteRate || 5,
+      layout: templateData?.layout || '正铺',
       isAdvanced: true
     }
     console.log('设置默认参数:', defaultParams)
     this.setData({ params: defaultParams })
     
-    // 提示用户重新选择材料
-    wx.showModal({
-      title: '参数缺失',
-      content: '未接收到材料参数，请返回重新选择材料',
-      showCancel: true,
-      cancelText: '继续使用',
-      confirmText: '返回选择',
-      success: (res) => {
-        if (res.confirm) {
-          wx.switchTab({
-            url: '/pages/materials/index'
-          })
+    // 只有在没有模板数据时才提示用户重新选择
+    if (!templateData) {
+      wx.showModal({
+        title: '参数缺失',
+        content: '未接收到材料参数，请返回重新选择材料',
+        showCancel: true,
+        cancelText: '继续使用',
+        confirmText: '返回选择',
+        success: (res) => {
+          if (res.confirm) {
+            wx.switchTab({
+              url: '/pages/materials/index'
+            })
+          }
         }
-      }
-    })
+      })
+    }
   },
 
   // 添加房间
